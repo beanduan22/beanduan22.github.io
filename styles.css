@@ -126,10 +126,6 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 .thread-no { margin: 0.2rem 0 0; font: 500 var(--text-sm) var(--mono); color: var(--pen); }
 .thread h3 { font-size: clamp(1.4rem, 1.2rem + 0.6vw, 1.75rem); font-weight: 500; line-height: 1.2; margin: 0 0 0.9rem; letter-spacing: -0.012em; }
 .thread > div > p { margin: 0 0 1.25rem; color: var(--ink-soft); max-width: 62ch; }
-.thread-facts { margin: 0; display: grid; gap: 0.5rem; max-width: 62ch; }
-.thread-facts > div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; }
-.thread-facts dt { font: 500 var(--text-sm)/1.7 var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
-.thread-facts dd { margin: 0; font-size: 1rem; }
 
 /* publications */
 .year { font: 500 var(--text-sm) var(--mono); letter-spacing: 0.04em; color: var(--muted); margin: 2.25rem 0 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
@@ -147,8 +143,7 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 }
 @media (max-width: 680px) {
   .thread { grid-template-columns: 1fr; gap: 0.25rem; }
-  .thread-facts > div { grid-template-columns: 1fr; gap: 0; }
-}
+  }
 
 /* portrait */
 .portrait { position: relative; margin: 0; justify-self: end; width: min(100%, 22rem); aspect-ratio: 2010 / 2289; background: var(--paper-deep); }
@@ -204,7 +199,8 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 .thread-papers li { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--rule); font-size: 0.98rem; line-height: 1.45; }
 .tp-tag { font: 500 0.75rem/1.9 var(--mono); color: var(--ink); white-space: nowrap; }
 .is-preprint .tp-tag { color: var(--muted); font-weight: 400; }
-.thread-papers a { text-decoration: none; }
+.thread-papers a { text-decoration: none; font-weight: 500; }
+.tp-summary { margin: 0.2rem 0 0; color: var(--ink-soft); font-size: 0.95rem; }
 .thread-papers a:hover { text-decoration: underline; text-decoration-color: var(--pen); }
 @media (max-width: 680px) { .thread-papers li { grid-template-columns: 1fr; gap: 0; } }
 

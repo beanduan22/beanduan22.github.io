@@ -11,9 +11,9 @@
   <title>binduan.github.io</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/newsreader-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=202611221616">
-  <script src="publications.js?v=202611221616" defer></script>
-  <script src="app.js?v=202611221616" defer></script>
+  <link rel="stylesheet" href="styles.css?v=202611221619">
+  <script src="publications.js?v=202611221619" defer></script>
+  <script src="app.js?v=202611221619" defer></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Bin Duan","url":"https://beanduan22.github.io/","email":"mailto:b.duan@uq.edu.au","affiliation":{"@type":"CollegeOrUniversity","name":"The University of Queensland"},"sameAs":["https://github.com/beanduan22","https://scholar.google.com/citations?user=vhagAc0AAAAJ"]}</script>
 </head>
 <body>
@@ -66,7 +66,6 @@
     <section class="page section" id="publications" aria-labelledby="pubs-h">
       <h2 class="label" id="pubs-h"><span data-i18n="selectedH">Selected publications</span></h2>
       <div class="pubs">
-        <p class="pub-note" data-i18n="noteSelected">First-author papers.</p>
         <div id="pub-list" class="pub-list" data-view="selected">
           <noscript><p>See <a href="research-outputs.html">all publications</a>.</p></noscript>
         </div>
@@ -82,11 +81,6 @@
           <div>
             <h3 data-i18n="t1">Testing deep learning libraries</h3>
             <p data-i18n="t1d">Every model trusts its framework without checking. A bug in a convolution or a resize call silently propagates into every application built on top. I build fuzzers for these libraries, using documentation to learn what valid inputs look like, and comparing equivalent APIs across frameworks to catch bugs that look identical on CPU and GPU. Recent work extends both ideas to Python libraries and to differential fuzzing at scale.</p>
-            <dl class="thread-facts">
-              <div><dt data-i18n="how">How</dt><dd data-i18n="t1how">LLM-parsed API documentation → parameter constraints → targeted inputs (VistaFuzz); cross-framework API matching with variance-guided differential testing (XAMT).</dd></div>
-              <div><dt data-i18n="found">Found</dt><dd data-i18n="t1found">17 new bugs in 330 OpenCV APIs; 17 bugs across 839 matched APIs in five DL frameworks.</dd></div>
-              
-            </dl>
             <h4 class="papers-h" data-i18n="papersH">Papers and preprints</h4>
             <ul class="thread-papers"></ul>
           </div>
@@ -96,11 +90,6 @@
           <div>
             <h3 data-i18n="t2">Model reliability: testing and defending neural networks</h3>
             <p data-i18n="t2d">A model can fail in two ways: on inputs nobody anticipated, and after someone tampers with its weights. On the testing side, I look for failures where they actually live&nbsp;— in the decision-critical regions of an input, guided by where the network is uncertain&nbsp;— rather than mutating at random. On the defence side, I protect deployed weights so that sparse, continuous or structured attacks on parameters stop working without retraining the model. Recent preprints extend this to latent-space test generation, vision-language models, and black-box attacks on models of code.</p>
-            <dl class="thread-facts">
-              <div><dt data-i18n="how">How</dt><dd data-i18n="t2how">Saliency-guided mutation with Bayesian optimisation (BayesWarp); keyed reparameterisation plus error-correcting quantisation of weights (ParDef).</dd></div>
-              <div><dt data-i18n="tested">Tested on</dt><dd data-i18n="t2on">MNIST, CIFAR-10/100, Tiny-ImageNet and ImageNet; ResNet, VGG and other architectures.</dd></div>
-              
-            </dl>
             <h4 class="papers-h" data-i18n="papersH">Papers and preprints</h4>
             <ul class="thread-papers"></ul>
           </div>
@@ -110,11 +99,6 @@
           <div>
             <h3 data-i18n="t3">LLMs for software engineering</h3>
             <p data-i18n="t3d">LLMs write plausible code; the question is which of it to trust. With collaborators I work on selecting the most reliable program from several models, and on using LLMs for unglamorous but real maintenance work: moving Android apps off deprecated and incompatible APIs.</p>
-            <dl class="thread-facts">
-              <div><dt data-i18n="how">How</dt><dd data-i18n="t3how">Ensemble voting by syntactic, semantic and behavioural similarity (EnsLLM); prompt-and-test repair loops for API migration (GUPPY).</dd></div>
-              <div><dt data-i18n="result">Result</dt><dd data-i18n="t3res">90.2% on HumanEval with an ensemble, vs 83.5% for the best single model.</dd></div>
-              
-            </dl>
             <h4 class="papers-h" data-i18n="papersH">Papers and preprints</h4>
             <ul class="thread-papers"></ul>
           </div>
