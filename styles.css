@@ -203,3 +203,6 @@ h1 .at { font: 400 0.32em/1 var(--mono); letter-spacing: 0; color: var(--pen); m
 /* full-width section (label above content) */
 .section-wide { grid-template-columns: 1fr; gap: 1rem; }
 .section-wide .label { position: static; }
+.section-wide .thread > div > p, .section-wide .thread-papers { max-width: none; }
+.section-wide .thread { grid-template-columns: 2rem minmax(0, 1fr); }
+.section-wide .pub-summary { max-width: none; }
