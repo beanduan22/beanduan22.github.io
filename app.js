@@ -2,8 +2,7 @@
   'use strict';
 
   const T = {
-    abstract: 'abstract', bibtex: 'bibtex', copyBib: 'copy bibtex', paper: 'paper', code: 'code',
-    bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead',
+    bibtex: 'bibtex', paper: 'paper', code: 'code',
     earlier: 'Earlier', preprints: 'Preprints', publications: 'Publications'
   };
   const SELF = 'Bin Duan';
@@ -25,22 +24,6 @@
     return el('a', { href, target: '_blank', rel: 'noopener noreferrer', text });
   }
 
-  const toast = document.getElementById('toast');
-  let toastTimer;
-  function showToast(message) {
-    toast.textContent = message;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
-  }
-  async function copyText(text, okMessage) {
-    try {
-      await navigator.clipboard.writeText(text);
-      showToast(okMessage);
-    } catch (err) {
-      showToast(T.copyFailed);
-    }
-  }
 
   /* ---------- bibtex ---------- */
   function toBibtex(p) {
@@ -92,21 +75,14 @@
     const titleHref = p.doi ? `https://doi.org/${p.doi}` : p.arxiv ? `https://arxiv.org/abs/${p.arxiv}` : `https://scholar.google.com/scholar?q=${encodeURIComponent(`"${p.title}"`)}`;
     const links = el('p', { class: 'pub-links' });
     if (p.doi) links.append(externalLink(`https://doi.org/${p.doi}`, T.paper));
-    if (p.arxiv) links.append(externalLink(`https://arxiv.org/abs/${p.arxiv}`, 'arXiv'));
+    else if (p.arxiv) links.append(externalLink(`https://arxiv.org/abs/${p.arxiv}`, 'arXiv'));
     if (p.code) links.append(externalLink(p.code, T.code));
     const node = el('article', { class: 'pub' });
-    if (p.abstract) {
-      const b = el('button', { type: 'button', 'aria-expanded': 'false', text: T.abstract });
-      b.addEventListener('click', () => togglePanel(b, node, 'abstract', () => el('p', { class: 'abstract', text: p.abstract })));
-      links.append(b);
-    }
     const bibBtn = el('button', { type: 'button', 'aria-expanded': 'false', text: T.bibtex });
     bibBtn.addEventListener('click', () => togglePanel(bibBtn, node, 'bibtex', () => el('pre', { class: 'bibtex', text: toBibtex(p) })));
-    const copyBtn = el('button', { type: 'button', text: T.copyBib });
-    copyBtn.addEventListener('click', () => copyText(toBibtex(p), T.bibCopied));
-    links.append(bibBtn, copyBtn);
+    links.append(bibBtn);
 
-    const heading = el('h4', {}, [p.tool ? el('span', { class: 'pub-tool', text: p.tool }) : null, externalLink(titleHref, p.title)]);
+    const heading = el('h4', {}, [externalLink(titleHref, p.title)]);
     const venue = el('div', { class: 'pub-venue' }, [
       el('p', { text: p.venue }, [p.year < 2023 || p.type === 'preprint' ? el('span', { text: String(p.year) }) : null]),
       rankBadges(p)

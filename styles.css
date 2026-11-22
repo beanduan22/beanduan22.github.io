@@ -94,8 +94,6 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
 .footer { display: flex; justify-content: space-between; gap: 1rem; padding-block: 2rem 3rem; border-top: 1px solid var(--rule); font: 400 var(--text-sm) var(--mono); color: var(--muted); }
 .footer p { margin: 0; }
 
-.toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translate(-50%, 1rem); margin: 0; background: var(--ink); color: var(--paper); font: 400 var(--text-sm) var(--mono); padding: 0.5rem 0.9rem; opacity: 0; pointer-events: none; transition: opacity 200ms, transform 200ms var(--ease); }
-.toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 
 @media (max-width: 900px) {
@@ -126,13 +124,11 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
 /* publications */
 .year { font: 500 var(--text-sm) var(--mono); letter-spacing: 0.04em; color: var(--muted); margin: 2.25rem 0 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
 .pub-list > .year:first-child { margin-top: 0; }
-.pub-tool { display: inline-block; font: 500 0.75rem var(--mono); background: var(--paper-deep); padding: 0.05rem 0.4rem; margin-right: 0.5rem; vertical-align: 0.15em; }
 .pub-full { font-style: italic; color: var(--muted); font-size: 0.95rem; margin: 0.15rem 0 0; }
 .pub-links { align-items: baseline; flex-wrap: wrap; }
 .pub-links button { font: inherit; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 0.2em; }
 .pub-links button:hover { color: var(--ink); text-decoration-color: var(--pen); }
 .pub-links button[aria-expanded="true"] { color: var(--pen); }
-.abstract { margin: 0.75rem 0 0.25rem; padding-left: 1rem; border-left: 2px solid var(--pen); color: var(--ink-soft); font-size: 0.98rem; max-width: 70ch; }
 .bibtex { margin: 0.75rem 0 0.25rem; padding: 0.9rem 1rem; background: var(--paper-deep); font: 400 0.78rem/1.55 var(--mono); overflow-x: auto; white-space: pre; }
 
 @media (max-width: 900px) {
