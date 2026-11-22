@@ -1,40 +1,13 @@
 (() => {
   'use strict';
 
-  const ZH = {
-    skip: '跳至正文', scholar: '谷歌学术',
-    role: '博士候选人 · 昆士兰大学 · 布里斯班',
-    bio: '我是昆士兰大学电气工程与计算机科学学院的计算机科学博士候选人，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的研究聚焦三个方向：<em>深度学习库测试</em>、<em>深度学习模型可靠性</em>，以及<em>大模型与软件工程</em>。',
-    researchH: '研究方向',
-    t1: '深度学习库测试',
-    t1d: '每个模型都无条件地信任它的框架。一次卷积或缩放调用里的 bug，会悄无声息地传到上层的每一个应用。我为这些库构建模糊测试工具：从文档中学习合法输入长什么样，并在不同框架之间比较等价的 API，从而发现那些在 CPU 和 GPU 上表现完全一致、因此很难被察觉的 bug。近期工作把这两种思路扩展到了 Python 库，以及更大规模的差分模糊测试。',
-    t2: '模型可靠性：神经网络的测试与防御',
-    t2d: '模型会以两种方式失效：遇到没人预料到的输入，或者权重被人篡改。在测试一侧，我不做随机变异，而是去错误真正所在的地方找——输入中对决策最关键的区域，并由网络的不确定性来引导搜索。在防御一侧，我保护已部署模型的权重，让稀疏、连续或结构化的参数攻击在无需重新训练的情况下失效。近期的预印本把这条线扩展到了潜空间测试生成、视觉-语言模型，以及针对代码模型的黑盒攻击。',
-    t3: '大模型与软件工程',
-    t3d: '大模型能写出看起来合理的代码，问题是该相信哪一段。我和合作者研究如何从多个模型的输出中挑出最可靠的程序，也用大模型去做那些不起眼但真实存在的维护工作：帮 Android 应用迁移掉已弃用、不兼容的 API。',
-    navAbout: '关于', navPubs: '研究成果', pubsH: '研究成果', selectedH: '代表论文', allLink: '全部研究成果', papersH: '论文与预印本',
-    newsH: '动态',
-    n1: '<em>Testing Neural Networks via Bayesian-Guided Exploration of Decision Landscapes</em> 发表于 IEEE TSE。',
-    n2: '<em>Toward a Generalized Defense Across Sparse, Continuous, and Structured Parameter Attacks</em> 发表于 IEEE TDSC。',
-    n3: '我们关于集成式代码生成的论文发表于 ICSE 2026（里约热内卢）。',
-    n4: '我们用大模型更新 Android 弃用 API 用法的论文发表于 IEEE TSE。',
-    n5: '我们关于跨框架 API 匹配、测试深度学习库的论文发表于 ISSRE 2025（圣保罗）。',
-    n6: '我们关于大模型驱动、文档引导的 OpenCV 模糊测试论文发表于 ICSME 2025（奥克兰）。',
-    n7: '我们关于检测 Android 第三方库不兼容 API 的工作发表于 FORGE 2025（渥太华）。',
-    n8: '在昆士兰大学开始读博，导师 Guowei Yang。',
-    updated: '最后更新于 2026 年 11 月'
+  const T = {
+    abstract: 'abstract', bibtex: 'bibtex', copyBib: 'copy bibtex', paper: 'paper', code: 'code',
+    bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead',
+    earlier: 'Earlier', preprints: 'Preprints', publications: 'Publications'
   };
-
-  const UI = {
-    en: { toggle: '中文', toggleLang: 'zh', abstract: 'abstract', bibtex: 'bibtex', copyBib: 'copy bibtex', paper: 'paper', code: 'code',
-      emailCopied: 'Email copied', bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead', earlier: 'Earlier', preprints: 'Preprints', publications: 'Publications' },
-    zh: { toggle: 'English', toggleLang: 'en', abstract: '摘要', bibtex: 'BibTeX', copyBib: '复制 BibTeX', paper: '论文', code: '代码',
-      emailCopied: '邮箱已复制', bibCopied: 'BibTeX 已复制', copyFailed: '复制失败，请手动选中文字', earlier: '更早', preprints: '预印本', publications: '论文发表' }
-  };
-  const STORAGE_KEY = 'bd-lang';
   const SELF = 'Bin Duan';
   const pubs = window.PUBLICATIONS || [];
-  let lang = 'en';
   const isSelected = p => p.authors[0] === SELF;
 
   /* ---------- helpers ---------- */
@@ -65,7 +38,7 @@
       await navigator.clipboard.writeText(text);
       showToast(okMessage);
     } catch (err) {
-      showToast(UI[lang].copyFailed);
+      showToast(T.copyFailed);
     }
   }
 
@@ -116,22 +89,21 @@
   }
 
   function renderPub(p, withSummary = false) {
-    const t = UI[lang];
     const titleHref = p.doi ? `https://doi.org/${p.doi}` : p.arxiv ? `https://arxiv.org/abs/${p.arxiv}` : `https://scholar.google.com/scholar?q=${encodeURIComponent(`"${p.title}"`)}`;
     const links = el('p', { class: 'pub-links' });
-    if (p.doi) links.append(externalLink(`https://doi.org/${p.doi}`, t.paper));
+    if (p.doi) links.append(externalLink(`https://doi.org/${p.doi}`, T.paper));
     if (p.arxiv) links.append(externalLink(`https://arxiv.org/abs/${p.arxiv}`, 'arXiv'));
-    if (p.code) links.append(externalLink(p.code, t.code));
+    if (p.code) links.append(externalLink(p.code, T.code));
     const node = el('article', { class: 'pub' });
     if (p.abstract) {
-      const b = el('button', { type: 'button', 'aria-expanded': 'false', text: t.abstract });
+      const b = el('button', { type: 'button', 'aria-expanded': 'false', text: T.abstract });
       b.addEventListener('click', () => togglePanel(b, node, 'abstract', () => el('p', { class: 'abstract', text: p.abstract })));
       links.append(b);
     }
-    const bibBtn = el('button', { type: 'button', 'aria-expanded': 'false', text: t.bibtex });
+    const bibBtn = el('button', { type: 'button', 'aria-expanded': 'false', text: T.bibtex });
     bibBtn.addEventListener('click', () => togglePanel(bibBtn, node, 'bibtex', () => el('pre', { class: 'bibtex', text: toBibtex(p) })));
-    const copyBtn = el('button', { type: 'button', text: t.copyBib });
-    copyBtn.addEventListener('click', () => copyText(toBibtex(p), UI[lang].bibCopied));
+    const copyBtn = el('button', { type: 'button', text: T.copyBib });
+    copyBtn.addEventListener('click', () => copyText(toBibtex(p), T.bibCopied));
     links.append(bibBtn, copyBtn);
 
     const heading = el('h4', {}, [p.tool ? el('span', { class: 'pub-tool', text: p.tool }) : null, externalLink(titleHref, p.title)]);
@@ -141,7 +113,7 @@
     ]);
     const fullText = p.type === 'preprint' ? `arXiv:${p.arxiv}` : p.fullVenue;
     const full = fullText !== p.venue ? el('p', { class: 'pub-full', text: fullText }) : null;
-    const summaryText = lang === 'zh' && p.summaryZh ? p.summaryZh : p.summary;
+    const summaryText = p.summary;
     const summary = withSummary && summaryText ? el('p', { class: 'pub-summary', text: summaryText }) : null;
     node.append(venue, el('div', { class: 'pub-body' }, [heading, summary, authorsLine(p.authors), full, links]));
     return node;
@@ -150,7 +122,7 @@
   function yearGroups(items, withSummary = false) {
     const groups = [];
     items.forEach(p => {
-      const label = p.year < 2023 ? UI[lang].earlier : String(p.year);
+      const label = p.year < 2023 ? T.earlier : String(p.year);
       const last = groups[groups.length - 1];
       if (last && last.label === label) last.items.push(p); else groups.push({ label, items: [p] });
     });
@@ -170,11 +142,10 @@
     if (view !== 'all') { list.replaceChildren(...yearGroups(published, true)); return; }
     const preprints = pubs.filter(p => p.type === 'preprint');
     list.replaceChildren(
-      outputPart('part-pubs', UI[lang].publications, published),
-      outputPart('part-pre', UI[lang].preprints, preprints)
+      outputPart('part-pubs', T.publications, published),
+      outputPart('part-pre', T.preprints, preprints)
     );
   }
-
 
   function renderThreadPapers() {
     const byNewest = (x, y) => y.year - x.year || (x.type === 'preprint') - (y.type === 'preprint');
@@ -183,7 +154,7 @@
       const items = pubs.filter(p => p.topic === thread.dataset.topic).sort(byNewest).map(p => {
         const href = p.doi ? `https://doi.org/${p.doi}` : `https://arxiv.org/abs/${p.arxiv}`;
         const tag = p.type === 'preprint' ? `arXiv ${p.year}` : `${p.venue} ${p.year}`;
-        const summaryText = lang === 'zh' && p.summaryZh ? p.summaryZh : p.summary;
+        const summaryText = p.summary;
         return el('li', { class: p.type === 'preprint' ? 'is-preprint' : '' }, [
           el('span', { class: 'tp-tag', text: tag }),
           el('div', {}, [
@@ -204,31 +175,8 @@
     if (photo.complete && photo.naturalWidth === 0) markEmpty();
   }
 
-  /* ---------- language ---------- */
-  const nodes = [
-    ...[...document.querySelectorAll('[data-i18n]')].map(n => ({ n, key: n.dataset.i18n, en: n.textContent, html: false })),
-    ...[...document.querySelectorAll('[data-i18n-html]')].map(n => ({ n, key: n.dataset.i18nHtml, en: n.innerHTML, html: true }))
-  ];
-  const toggle = document.getElementById('lang-toggle');
-
-  function applyLanguage(next) {
-    lang = next === 'zh' ? 'zh' : 'en';
-    nodes.forEach(({ n, key, en, html }) => {
-      const value = lang === 'zh' && ZH[key] ? ZH[key] : en;
-      if (html) n.innerHTML = value; else n.textContent = value; // ZH html strings are static, authored above
-    });
-    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-    toggle.textContent = UI[lang].toggle;
-    toggle.lang = UI[lang].toggleLang;
-    renderPublications();
-    renderThreadPapers();
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch (err) { /* storage unavailable: choice just won't persist */ }
-  }
-  toggle.addEventListener('click', () => applyLanguage(lang === 'en' ? 'zh' : 'en'));
-
-  let saved = null;
-  try { saved = localStorage.getItem(STORAGE_KEY); } catch (err) { saved = null; }
-  applyLanguage(saved === 'zh' ? 'zh' : 'en');
+  renderPublications();
+  renderThreadPapers();
 
   /* ---------- misc ---------- */
   document.getElementById('year').textContent = String(new Date().getFullYear());
