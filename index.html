@@ -37,7 +37,7 @@
       <div class="intro-text">
         <p class="meta" data-i18n="role">PhD student · The University of Queensland · Brisbane</p>
         <h1 id="name">Bin Duan</h1>
-        <p class="body" data-i18n-html="bio">I’m a PhD student in Computer Science at UQ’s School of Electrical Engineering and Computer Science, advised by <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>. My work sits between software engineering and machine learning: I build testing tools for neural networks and for the frameworks underneath them, and I use large language models to make that testing smarter. Before that, I worked on making convolutional networks smaller and cheaper.</p>
+        <p class="body" data-i18n-html="bio">I’m a PhD student in Computer Science at UQ’s School of Electrical Engineering and Computer Science, advised by <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>. My research focuses on three directions: <em>testing deep learning libraries</em>, <em>the reliability of deep learning models</em>, and <em>large language models for software engineering</em>.</p>
         <ul class="links" aria-label="Elsewhere">
           <li><a href="mailto:b.duan@uq.edu.au">b.duan@uq.edu.au</a></li>
           <li><a href="https://github.com/beanduan22" target="_blank" rel="noopener noreferrer">GitHub</a></li>
@@ -48,15 +48,6 @@
         <img src="assets/photo.jpg" alt="Portrait of Bin Duan" width="396" height="396" decoding="async">
         <span class="portrait-empty" aria-hidden="true">photo<br>assets/photo.jpg</span>
       </figure>
-    </section>
-
-    <section class="page stats" aria-label="At a glance">
-      <dl>
-        <div><dt data-i18n="statPapers">publications, 4 as first author</dt><dd>9</dd></div>
-        <div><dt data-i18n="statBugs">previously unknown bugs found in OpenCV and DL frameworks</dt><dd>34</dd></div>
-        <div><dt data-i18n="statConfirmed">confirmed by library developers</dt><dd>22</dd></div>
-        <div><dt data-i18n="statLibs">libraries tested — OpenCV, PyTorch, TensorFlow, Keras, Chainer, JAX</dt><dd>6</dd></div>
-      </dl>
     </section>
 
     <section class="page section" id="research" aria-labelledby="research-h">
@@ -104,14 +95,12 @@
     <section class="page section" id="publications" aria-labelledby="pubs-h">
       <h2 class="label" id="pubs-h"><span class="label-no">02</span> <span data-i18n="pubsH">Publications</span></h2>
       <div class="pubs">
-        <div class="pub-filters" role="group" aria-label="Filter by topic" id="pub-filters">
-          <button type="button" data-topic="all" aria-pressed="true"><span data-i18n="fAll">All</span> <span class="count">9</span></button>
-          <button type="button" data-topic="libraries" aria-pressed="false" data-i18n="fLibraries">Testing DL libraries</button>
-          <button type="button" data-topic="models" aria-pressed="false" data-i18n="fModels">Model reliability</button>
-          <button type="button" data-topic="llm" aria-pressed="false" data-i18n="fLLM">LLMs for SE</button>
-          <button type="button" data-topic="efficient" aria-pressed="false" data-i18n="fEfficient">Efficient networks</button>
+        <div class="pub-tabs" role="tablist" aria-label="Publication lists" id="pub-tabs">
+          <button type="button" role="tab" id="tab-selected" aria-controls="pub-list" aria-selected="true" data-view="selected"><span data-i18n="tabSelected">Selected</span> <span class="count" id="count-selected"></span></button>
+          <button type="button" role="tab" id="tab-all" aria-controls="pub-list" aria-selected="false" data-view="all"><span data-i18n="tabAll">All publications</span> <span class="count" id="count-all"></span></button>
         </div>
-        <div id="pub-list" class="pub-list" aria-live="polite">
+        <p class="pub-note" id="pub-note"></p>
+        <div id="pub-list" class="pub-list" role="tabpanel" aria-live="polite">
           <noscript><p>The publication list needs JavaScript. See <a href="https://scholar.google.com/citations?user=vhagAc0AAAAJ">Google Scholar</a> for the full list.</p></noscript>
         </div>
       </div>

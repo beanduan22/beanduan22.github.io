@@ -4,8 +4,7 @@
   const ZH = {
     skip: '跳至正文', navResearch: '研究', navPubs: '论文', navAbout: '关于', scholar: '谷歌学术',
     role: '博士研究生 · 昆士兰大学 · 布里斯班',
-    bio: '我在昆士兰大学电气工程与计算机科学学院攻读计算机科学博士，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的工作处在软件工程与机器学习之间：为深度学习框架、以及运行在其上的神经网络构建测试与防御工具，并用大语言模型让测试更聪明。在此之前，我研究的是如何让卷积网络更小、更省。',
-    statPapers: '篇论文，其中 4 篇为第一作者', statBugs: '个在 OpenCV 和深度学习框架中新发现的 bug', statConfirmed: '个已被库的开发者确认', statLibs: '个被测试的库：OpenCV、PyTorch、TensorFlow、Keras、Chainer、JAX',
+    bio: '我在昆士兰大学电气工程与计算机科学学院攻读计算机科学博士，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的研究聚焦三个方向：<em>深度学习库测试</em>、<em>深度学习模型可靠性</em>，以及<em>大模型与软件工程</em>。',
     researchH: '研究方向',
     t1: '深度学习库测试',
     t1d: '每个模型都无条件地信任它的框架。一次卷积或缩放调用里的 bug，会悄无声息地传到上层的每一个应用。我为这些库构建模糊测试工具：从文档中学习合法输入长什么样，并在不同框架之间比较等价的 API，从而发现那些在 CPU 和 GPU 上表现完全一致、因此很难被察觉的 bug。',
@@ -20,7 +19,7 @@
     t3how: '基于语法、语义和行为相似度的集成投票（EnsLLM）；“提示 + 测试”的迭代修复循环，用于 API 迁移（GUPPY）。',
     t3res: '集成方法在 HumanEval 上达到 90.2%，最好的单个模型为 83.5%。',
     how: '方法', tested: '数据', found: '发现', result: '结果', papers: '论文',
-    pubsH: '论文', fAll: '全部', fLibraries: '深度学习库测试', fModels: '模型可靠性', fLLM: '大模型与软件工程', fEfficient: '高效网络',
+    pubsH: '论文', tabSelected: '代表作', tabAll: '全部论文',
     timeH: '时间线',
     tl2026: 'BayesWarp 发表于 IEEE TSE，ParDef 发表于 IEEE TDSC；集成代码生成工作发表于 ICSE。',
     tl2025: '第一批第一作者会议论文：ICSME 上的 VistaFuzz 与 ISSRE 上的 XAMT；基于大模型的 Android API 工作发表于 IEEE TSE 与 FORGE。',
@@ -34,15 +33,18 @@
 
   const UI = {
     en: { toggle: '中文', toggleLang: 'zh', abstract: 'abstract', bibtex: 'bibtex', copyBib: 'copy bibtex', paper: 'paper', code: 'code',
-      emailCopied: 'Email copied', bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead', earlier: 'Earlier', preprints: 'Preprints' },
+      emailCopied: 'Email copied', bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead', earlier: 'Earlier', preprints: 'Preprints',
+      noteSelected: 'First-author papers.', noteAll: 'Every publication, newest first.' },
     zh: { toggle: 'English', toggleLang: 'en', abstract: '摘要', bibtex: 'BibTeX', copyBib: '复制 BibTeX', paper: '论文', code: '代码',
-      emailCopied: '邮箱已复制', bibCopied: 'BibTeX 已复制', copyFailed: '复制失败，请手动选中文字', earlier: '更早', preprints: '预印本' }
+      emailCopied: '邮箱已复制', bibCopied: 'BibTeX 已复制', copyFailed: '复制失败，请手动选中文字', earlier: '更早', preprints: '预印本',
+      noteSelected: '第一作者论文。', noteAll: '全部论文，按时间倒序。' }
   };
   const STORAGE_KEY = 'bd-lang';
   const SELF = 'Bin Duan';
   const pubs = window.PUBLICATIONS || [];
   let lang = 'en';
-  let topic = 'all';
+  let view = 'selected';
+  const isSelected = p => p.authors[0] === SELF;
 
   /* ---------- helpers ---------- */
   function el(tag, props = {}, children = []) {
@@ -154,7 +156,7 @@
   function renderPublications() {
     const list = document.getElementById('pub-list');
     if (!list) return;
-    const shown = pubs.filter(p => topic === 'all' || p.topic === topic)
+    const shown = pubs.filter(p => view === 'all' || isSelected(p))
       .sort((a, b) => (b.type === 'preprint') - (a.type === 'preprint'));
     const groups = [];
     shown.forEach(p => {
@@ -163,15 +165,32 @@
       if (last && last.label === label) last.items.push(p); else groups.push({ label, items: [p] });
     });
     list.replaceChildren(...groups.flatMap(g => [el('h3', { class: 'year', text: g.label }), ...g.items.map(renderPub)]));
+    list.setAttribute('aria-labelledby', `tab-${view}`);
+    document.getElementById('pub-note').textContent = UI[lang][view === 'all' ? 'noteAll' : 'noteSelected'];
   }
 
-  document.querySelectorAll('#pub-filters button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      topic = btn.dataset.topic;
-      document.querySelectorAll('#pub-filters button').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
-      renderPublications();
+  const tabs = [...document.querySelectorAll('#pub-tabs [role="tab"]')];
+  function selectView(next, focus = false) {
+    view = next;
+    tabs.forEach(t => {
+      const on = t.dataset.view === view;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      if (on && focus) t.focus();
+    });
+    renderPublications();
+  }
+  tabs.forEach(t => {
+    t.addEventListener('click', () => selectView(t.dataset.view));
+    t.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const i = tabs.indexOf(t);
+      selectView(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length].dataset.view, true);
     });
   });
+  document.getElementById('count-selected').textContent = String(pubs.filter(isSelected).length);
+  document.getElementById('count-all').textContent = String(pubs.length);
+  document.getElementById('tab-all').tabIndex = -1;
 
   function renderThreadPapers() {
     document.querySelectorAll('.thread[data-topic]').forEach(thread => {

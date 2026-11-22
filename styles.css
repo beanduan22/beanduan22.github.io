@@ -122,14 +122,6 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 .pair { white-space: nowrap; }
 .pair:has(.tool-plain) { white-space: normal; }
 
-/* stats strip */
-.stats dl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--ink); }
-.stats dl > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.4rem; padding: 1.25rem 1.5rem 2.5rem 0; }
-.stats dl > div + div { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
-.stats dd { margin: 0; font-size: clamp(2.5rem, 1.8rem + 2.5vw, 3.75rem); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: lining-nums; }
-.stats div:nth-child(2) dd { color: var(--pen); }
-.stats dt { font: 400 var(--text-sm)/1.45 var(--mono); color: var(--muted); max-width: 24ch; }
-
 /* research threads */
 .threads { display: grid; gap: 0; }
 .thread { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 1rem; padding: 0 0 2.5rem; }
@@ -143,11 +135,6 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 .thread-facts dd { margin: 0; font-size: 1rem; }
 
 /* publications */
-.pub-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.1rem 0 1.75rem; }
-.pub-filters button { font: 400 var(--text-sm) var(--mono); color: var(--ink-soft); background: none; border: 1px solid var(--rule); padding: 0.35rem 0.75rem; cursor: pointer; transition: border-color 160ms, background 160ms, color 160ms; }
-.pub-filters button:hover { border-color: var(--ink); color: var(--ink); }
-.pub-filters button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-.pub-filters .count { opacity: 0.6; }
 .year { font: 500 var(--text-sm) var(--mono); letter-spacing: 0.04em; color: var(--muted); margin: 2.25rem 0 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
 .pub-list > .year:first-child { margin-top: 0; }
 .pub-tool { display: inline-block; font: 500 0.75rem var(--mono); background: var(--paper-deep); padding: 0.05rem 0.4rem; margin-right: 0.5rem; vertical-align: 0.15em; }
@@ -179,14 +166,9 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 .links-col { display: flex; gap: 1.5rem; flex-wrap: wrap; font: 400 var(--text-sm) var(--mono); margin: 1.5rem 0 0; }
 
 @media (max-width: 900px) {
-  .stats dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .stats dl > div:nth-child(3) { padding-left: 0; border-left: 0; }
-  .stats dl > div:nth-child(n+3) { border-top: 1px solid var(--rule); }
   .about { grid-template-columns: 1fr; }
 }
 @media (max-width: 680px) {
-  .stats dl > div { padding-right: 0.75rem; padding-bottom: 1.5rem; }
-  .stats dl > div + div { padding-left: 0.75rem; }
   .thread { grid-template-columns: 1fr; gap: 0.25rem; }
   .thread-facts > div { grid-template-columns: 1fr; gap: 0; }
   .timeline::before, .timeline li::after { left: 3.25rem; }
@@ -212,3 +194,14 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 .thread-papers { display: flex; flex-wrap: wrap; gap: 0.35rem 0.5rem; }
 .thread-paper { font: 400 var(--text-sm)/1.5 var(--mono); text-decoration: none; background: var(--paper-deep); padding: 0.1rem 0.45rem; transition: background 160ms, color 160ms; }
 .thread-paper:hover { background: var(--ink); color: var(--paper); }
+
+/* intro bio directions */
+.body em { font-style: italic; color: var(--ink); }
+
+/* publication tabs */
+.pub-tabs { display: flex; gap: 2rem; margin: 0 0 0.5rem; border-bottom: 1px solid var(--rule); }
+.pub-tabs [role="tab"] { font: 500 1.25rem/1.2 var(--serif); color: var(--muted); background: none; border: 0; padding: 0 0 0.75rem; margin-bottom: -1px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 160ms, border-color 200ms var(--ease); }
+.pub-tabs [role="tab"]:hover { color: var(--ink); }
+.pub-tabs [role="tab"][aria-selected="true"] { color: var(--ink); border-bottom-color: var(--pen); }
+.pub-tabs .count { font: 400 var(--text-sm) var(--mono); color: var(--muted); vertical-align: 0.2em; }
+.pub-note { font: 400 var(--text-sm) var(--mono); color: var(--muted); margin: 0 0 1.75rem; }
