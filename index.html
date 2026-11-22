@@ -11,9 +11,9 @@
   <title>binduan.github.io</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/newsreader-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=20261122164247">
-  <script src="publications.js?v=20261122164247" defer></script>
-  <script src="app.js?v=20261122164247" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261122164437">
+  <script src="publications.js?v=20261122164437" defer></script>
+  <script src="app.js?v=20261122164437" defer></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Bin Duan","url":"https://beanduan22.github.io/","email":"mailto:b.duan@uq.edu.au","affiliation":{"@type":"CollegeOrUniversity","name":"The University of Queensland"},"sameAs":["https://github.com/beanduan22","https://scholar.google.com/citations?user=vhagAc0AAAAJ"]}</script>
 </head>
 <body>
@@ -78,7 +78,7 @@
         <article class="thread" data-topic="libraries">
           <div>
             <h3>Reliable AI software infrastructure</h3>
-            <p>AI applications rest on libraries such as PyTorch, TensorFlow and OpenCV, and a bug in one of them reaches every application built on top. Our work does two things: we generate valid, diverse test inputs for library APIs, using LLMs to read API documentation and derive parameter constraints and dependencies; and we design oracles that decide when a behaviour is a bug, such as cross-framework differential testing between libraries that implement the same operation. Across these studies, we have reported 180 bugs to library developers: 91 have been confirmed and 69 fixed.</p>
+            <p>Deep learning frameworks and the libraries around them, such as PyTorch, TensorFlow and OpenCV, are the infrastructure that every AI application runs on, so a single bug in them propagates to every system built on top. We study how to test this infrastructure automatically: generating valid and diverse test inputs, and designing oracles that recognise incorrect behaviour without a hand-written specification. Across these studies, we have reported 180 bugs to library developers: 91 have been confirmed and 69 fixed.</p>
             <h4 class="papers-h">Papers and preprints</h4>
             <ul class="thread-papers"></ul>
           </div>
@@ -86,7 +86,7 @@
         <article class="thread" data-topic="models">
           <div>
             <h3>Trustworthy AI models</h3>
-            <p>A model can fail in two ways: on inputs nobody anticipated, and after someone tampers with its weights. On the testing side, we look for failures where they actually live&nbsp;— in the decision-critical regions of an input, guided by where the network is uncertain&nbsp;— rather than mutating at random. On the defence side, we protect deployed weights so that sparse, continuous or structured attacks on parameters stop working without retraining the model. Our recent preprints extend this to latent-space test generation, vision-language models, and black-box attacks on models of code.</p>
+            <p>We study the reliability of deep learning models themselves, including image classifiers, vision-language models and models of code. These models are increasingly deployed in safety- and security-critical software, where they can fail on inputs nobody anticipated or be compromised by an adversary. We develop testing techniques that expose realistic and diverse failures before deployment, and defences that keep deployed models robust against attacks on their inputs and parameters.</p>
             <h4 class="papers-h">Papers and preprints</h4>
             <ul class="thread-papers"></ul>
           </div>
@@ -94,7 +94,7 @@
         <article class="thread" data-topic="llm">
           <div>
             <h3>LLMs for software engineering</h3>
-            <p>LLMs write plausible code; the question is which of it to trust. We work on selecting the most reliable program from several models, and on using LLMs for unglamorous but real maintenance work: moving Android apps off deprecated and incompatible APIs.</p>
+            <p>Large language models are changing how software is written and maintained, but the code they produce is not always correct. We study how to make LLM-generated code more reliable, and how to apply LLMs to software maintenance tasks such as updating deprecated and incompatible APIs.</p>
             <h4 class="papers-h">Papers and preprints</h4>
             <ul class="thread-papers"></ul>
           </div>
