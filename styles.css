@@ -148,7 +148,7 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
 /* ranks */
 .ranks { display: flex; flex-wrap: wrap; gap: 0.25rem; margin: 0.35rem 0 0 !important; }
 .rank { font: 500 0.6875rem/1 var(--mono); letter-spacing: 0.02em; padding: 0.22rem 0.35rem; border: 1px solid currentColor; white-space: nowrap; }
-.pub-venue .ranks .rank { color: var(--ink-soft); font-weight: 500; }
+.pub-venue .ranks .rank { color: var(--ink); font-weight: 400; border-color: var(--ink); }
 
 
 /* intro bio directions */
@@ -199,3 +199,7 @@ h1 .at { font: 400 0.32em/1 var(--mono); letter-spacing: 0; color: var(--pen); m
 .part-h .count { font: 400 var(--text-sm) var(--mono); color: var(--muted); }
 .papers-h { font: 500 var(--text-sm) var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.75rem 0 0.5rem; }
 .papers-h + .thread-papers { margin-top: 0; }
+
+/* full-width section (label above content) */
+.section-wide { grid-template-columns: 1fr; gap: 1rem; }
+.section-wide .label { position: static; }
