@@ -24,8 +24,8 @@
     <div class="page masthead-inner">
       <a class="mark" href="#top" aria-label="Bin Duan, top of page">B<span>×</span>D</a>
       <nav aria-label="Sections" class="masthead-nav">
-        <a href="#research" data-i18n="navResearch">Research</a>
-        <a href="#publications" data-i18n="navPubs">Publications</a>
+        <a href="./" aria-current="page" data-i18n="navAbout">About</a>
+        <a href="publications.html" data-i18n="navPubs">Publications</a>
         <button class="lang" id="lang-toggle" type="button" lang="zh">中文</button>
       </nav>
     </div>
@@ -49,8 +49,22 @@
       </figure>
     </section>
 
+    <section class="page section" id="news" aria-labelledby="news-h">
+      <h2 class="label" id="news-h"><span class="label-no">01</span> <span data-i18n="newsH">News</span></h2>
+      <ul class="news">
+        <li><time datetime="2026">2026</time><p data-i18n-html="n1"><em>Testing Neural Networks via Bayesian-Guided Exploration of Decision Landscapes</em> (BayesWarp) is published in IEEE TSE.</p></li>
+        <li><time datetime="2026-09">Sep 2026</time><p data-i18n-html="n2"><em>Toward a Generalized Defense Across Sparse, Continuous, and Structured Parameter Attacks</em> (ParDef) is published in IEEE TDSC.</p></li>
+        <li><time datetime="2026-04">Apr 2026</time><p data-i18n-html="n3">Our ensemble code generation paper appears at ICSE 2026 in Rio de Janeiro.</p></li>
+        <li><time datetime="2026-01">Jan 2026</time><p data-i18n-html="n4">Our paper on updating deprecated Android API usages with LLMs (GUPPY) is published in IEEE TSE.</p></li>
+        <li><time datetime="2025-10">Oct 2025</time><p data-i18n-html="n5">XAMT, cross-framework API matching for testing DL libraries, appears at ISSRE 2025 in São Paulo.</p></li>
+        <li><time datetime="2025-09">Sep 2025</time><p data-i18n-html="n6">VistaFuzz, LLM-driven document-guided fuzzing of OpenCV, appears at ICSME 2025 in Auckland.</p></li>
+        <li><time datetime="2025-04">Apr 2025</time><p data-i18n-html="n7">Our work on detecting incompatible APIs in Android third-party libraries appears at FORGE 2025 in Ottawa.</p></li>
+        <li><time datetime="2023-10">Oct 2023</time><p data-i18n-html="n8">Started my PhD at the University of Queensland, advised by Guowei Yang.</p></li>
+      </ul>
+    </section>
+
     <section class="page section" id="research" aria-labelledby="research-h">
-      <h2 class="label" id="research-h"><span class="label-no">01</span> <span data-i18n="researchH">Research</span></h2>
+      <h2 class="label" id="research-h"><span class="label-no">02</span> <span data-i18n="researchH">Research</span></h2>
       <div class="threads">
         <article class="thread" data-topic="libraries">
           <p class="thread-no">A</p>
@@ -92,16 +106,13 @@
     </section>
 
     <section class="page section" id="publications" aria-labelledby="pubs-h">
-      <h2 class="label" id="pubs-h"><span class="label-no">02</span> <span data-i18n="pubsH">Publications</span></h2>
+      <h2 class="label" id="pubs-h"><span class="label-no">03</span> <span data-i18n="selectedH">Selected publications</span></h2>
       <div class="pubs">
-        <div class="pub-tabs" role="tablist" aria-label="Publication lists" id="pub-tabs">
-          <button type="button" role="tab" id="tab-selected" aria-controls="pub-list" aria-selected="true" data-view="selected"><span data-i18n="tabSelected">Selected</span> <span class="count" id="count-selected"></span></button>
-          <button type="button" role="tab" id="tab-all" aria-controls="pub-list" aria-selected="false" data-view="all"><span data-i18n="tabAll">All publications</span> <span class="count" id="count-all"></span></button>
+        <p class="pub-note" data-i18n="noteSelected">First-author papers.</p>
+        <div id="pub-list" class="pub-list" data-view="selected">
+          <noscript><p>See <a href="publications.html">all publications</a>.</p></noscript>
         </div>
-        <p class="pub-note" id="pub-note"></p>
-        <div id="pub-list" class="pub-list" role="tabpanel" aria-live="polite">
-          <noscript><p>The publication list needs JavaScript. See <a href="https://scholar.google.com/citations?user=vhagAc0AAAAJ">Google Scholar</a> for the full list.</p></noscript>
-        </div>
+        <p class="more"><a href="publications.html"><span data-i18n="allLink">All publications</span> →</a></p>
       </div>
     </section>
 

@@ -2,7 +2,7 @@
   'use strict';
 
   const ZH = {
-    skip: '跳至正文', navResearch: '研究', navPubs: '论文', scholar: '谷歌学术',
+    skip: '跳至正文', navPubs: '论文', scholar: '谷歌学术',
     role: '博士研究生 · 昆士兰大学 · 布里斯班',
     bio: '我在昆士兰大学电气工程与计算机科学学院攻读计算机科学博士，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的研究聚焦三个方向：<em>深度学习库测试</em>、<em>深度学习模型可靠性</em>，以及<em>大模型与软件工程</em>。',
     researchH: '研究方向',
@@ -19,23 +19,30 @@
     t3how: '基于语法、语义和行为相似度的集成投票（EnsLLM）；“提示 + 测试”的迭代修复循环，用于 API 迁移（GUPPY）。',
     t3res: '集成方法在 HumanEval 上达到 90.2%，最好的单个模型为 83.5%。',
     how: '方法', tested: '数据', found: '发现', result: '结果', papers: '论文',
-    pubsH: '论文', tabSelected: '代表作', tabAll: '全部论文',
+    navAbout: '关于', pubsH: '论文', selectedH: '代表论文', noteSelected: '第一作者论文。', allLink: '全部论文',
+    pubsIntro: '等级参考 CCF 推荐目录（2022）与 CORE 2023（会议）。完整列表见 <a href="https://scholar.google.com/citations?user=vhagAc0AAAAJ" target="_blank" rel="noopener noreferrer">谷歌学术</a>。',
+    newsH: '动态',
+    n1: '<em>Testing Neural Networks via Bayesian-Guided Exploration of Decision Landscapes</em>（BayesWarp）发表于 IEEE TSE。',
+    n2: '<em>Toward a Generalized Defense Across Sparse, Continuous, and Structured Parameter Attacks</em>（ParDef）发表于 IEEE TDSC。',
+    n3: '我们关于集成式代码生成的论文发表于 ICSE 2026（里约热内卢）。',
+    n4: '我们用大模型更新 Android 弃用 API 用法的论文（GUPPY）发表于 IEEE TSE。',
+    n5: 'XAMT（跨框架 API 匹配的深度学习库测试）发表于 ISSRE 2025（圣保罗）。',
+    n6: 'VistaFuzz（大模型驱动、文档引导的 OpenCV 模糊测试）发表于 ICSME 2025（奥克兰）。',
+    n7: '我们关于检测 Android 第三方库不兼容 API 的工作发表于 FORGE 2025（渥太华）。',
+    n8: '在昆士兰大学开始读博，导师 Guowei Yang。',
     updated: '最后更新于 2026 年 11 月'
   };
 
   const UI = {
     en: { toggle: '中文', toggleLang: 'zh', abstract: 'abstract', bibtex: 'bibtex', copyBib: 'copy bibtex', paper: 'paper', code: 'code',
-      emailCopied: 'Email copied', bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead', earlier: 'Earlier', preprints: 'Preprints',
-      noteSelected: 'First-author papers.', noteAll: 'Every publication, newest first.' },
+      emailCopied: 'Email copied', bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead', earlier: 'Earlier', preprints: 'Preprints' },
     zh: { toggle: 'English', toggleLang: 'en', abstract: '摘要', bibtex: 'BibTeX', copyBib: '复制 BibTeX', paper: '论文', code: '代码',
-      emailCopied: '邮箱已复制', bibCopied: 'BibTeX 已复制', copyFailed: '复制失败，请手动选中文字', earlier: '更早', preprints: '预印本',
-      noteSelected: '第一作者论文。', noteAll: '全部论文，按时间倒序。' }
+      emailCopied: '邮箱已复制', bibCopied: 'BibTeX 已复制', copyFailed: '复制失败，请手动选中文字', earlier: '更早', preprints: '预印本' }
   };
   const STORAGE_KEY = 'bd-lang';
   const SELF = 'Bin Duan';
   const pubs = window.PUBLICATIONS || [];
   let lang = 'en';
-  let view = 'selected';
   const isSelected = p => p.authors[0] === SELF;
 
   /* ---------- helpers ---------- */
@@ -148,6 +155,7 @@
   function renderPublications() {
     const list = document.getElementById('pub-list');
     if (!list) return;
+    const view = list.dataset.view;
     const shown = pubs.filter(p => view === 'all' || isSelected(p))
       .sort((a, b) => (b.type === 'preprint') - (a.type === 'preprint'));
     const groups = [];
@@ -157,50 +165,28 @@
       if (last && last.label === label) last.items.push(p); else groups.push({ label, items: [p] });
     });
     list.replaceChildren(...groups.flatMap(g => [el('h3', { class: 'year', text: g.label }), ...g.items.map(renderPub)]));
-    list.setAttribute('aria-labelledby', `tab-${view}`);
-    document.getElementById('pub-note').textContent = UI[lang][view === 'all' ? 'noteAll' : 'noteSelected'];
   }
 
-  const tabs = [...document.querySelectorAll('#pub-tabs [role="tab"]')];
-  function selectView(next, focus = false) {
-    view = next;
-    tabs.forEach(t => {
-      const on = t.dataset.view === view;
-      t.setAttribute('aria-selected', String(on));
-      t.tabIndex = on ? 0 : -1;
-      if (on && focus) t.focus();
-    });
-    renderPublications();
-  }
-  tabs.forEach(t => {
-    t.addEventListener('click', () => selectView(t.dataset.view));
-    t.addEventListener('keydown', e => {
-      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-      const i = tabs.indexOf(t);
-      selectView(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length].dataset.view, true);
-    });
-  });
-  document.getElementById('count-selected').textContent = String(pubs.filter(isSelected).length);
-  document.getElementById('count-all').textContent = String(pubs.length);
-  document.getElementById('tab-all').tabIndex = -1;
 
   function renderThreadPapers() {
     document.querySelectorAll('.thread[data-topic]').forEach(thread => {
       const slot = thread.querySelector('.thread-papers');
       const items = pubs.filter(p => p.topic === thread.dataset.topic).map(p => {
         const label = p.type === 'preprint' ? `${p.tool || p.title} · ${UI[lang].preprints}` : `${p.tool ? p.tool + ' · ' : ''}${p.venue} ’${String(p.year).slice(2)}`;
-        const href = p.doi ? `https://doi.org/${p.doi}` : p.arxiv ? `https://arxiv.org/abs/${p.arxiv}` : '#publications';
-        return el('a', { class: 'thread-paper', href, target: href.startsWith('#') ? '_self' : '_blank', rel: 'noopener noreferrer', text: label });
+        const href = p.doi ? `https://doi.org/${p.doi}` : p.arxiv ? `https://arxiv.org/abs/${p.arxiv}` : 'publications.html';
+        return el('a', { class: 'thread-paper', href, target: href.startsWith('http') ? '_blank' : '_self', rel: 'noopener noreferrer', text: label });
       });
       slot.replaceChildren(...items);
     });
   }
 
   const portrait = document.getElementById('portrait');
-  const photo = portrait.querySelector('img');
-  const markEmpty = () => portrait.classList.add('is-empty');
-  photo.addEventListener('error', markEmpty);
-  if (photo.complete && photo.naturalWidth === 0) markEmpty();
+  if (portrait) {
+    const photo = portrait.querySelector('img');
+    const markEmpty = () => portrait.classList.add('is-empty');
+    photo.addEventListener('error', markEmpty);
+    if (photo.complete && photo.naturalWidth === 0) markEmpty();
+  }
 
   /* ---------- language ---------- */
   const nodes = [

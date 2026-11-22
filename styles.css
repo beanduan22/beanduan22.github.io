@@ -171,10 +171,31 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 /* intro bio directions */
 .body em { font-style: italic; color: var(--ink); }
 
-/* publication tabs */
-.pub-tabs { display: flex; gap: 2rem; margin: 0 0 0.5rem; border-bottom: 1px solid var(--rule); }
-.pub-tabs [role="tab"] { font: 500 1.25rem/1.2 var(--serif); color: var(--muted); background: none; border: 0; padding: 0 0 0.75rem; margin-bottom: -1px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 160ms, border-color 200ms var(--ease); }
-.pub-tabs [role="tab"]:hover { color: var(--ink); }
-.pub-tabs [role="tab"][aria-selected="true"] { color: var(--ink); border-bottom-color: var(--pen); }
-.pub-tabs .count { font: 400 var(--text-sm) var(--mono); color: var(--muted); vertical-align: 0.2em; }
 .pub-note { font: 400 var(--text-sm) var(--mono); color: var(--muted); margin: 0 0 1.75rem; }
+
+/* news */
+.news { list-style: none; margin: 0; padding: 0; max-width: 46rem; }
+.news li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1.25rem; padding: 0.7rem 0; border-bottom: 1px solid var(--rule); }
+.news li:first-child { padding-top: 0.2rem; }
+.news time { font: 400 var(--text-sm)/1.9 var(--mono); color: var(--muted); white-space: nowrap; }
+.news li:first-child time { color: var(--pen); }
+.news p { margin: 0; }
+.news em { font-style: italic; }
+
+/* links between pages */
+.more { margin: 1.5rem 0 0; font: 500 var(--text-sm) var(--mono); }
+.more a { text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 0.15rem; transition: color 160ms, border-color 160ms; }
+.more a:hover { color: var(--pen); border-color: var(--pen); }
+.masthead-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--pen); text-underline-offset: 0.45em; }
+
+/* publications page */
+.pubs-page { padding-block: clamp(3rem, 7vw, 5.5rem) clamp(3rem, 6vw, 5rem); }
+.pubs-page-head { margin-bottom: clamp(2rem, 5vw, 3.5rem); max-width: 46rem; }
+.pubs-page-head .meta a { text-decoration: none; }
+.pubs-page-head h1 { margin-bottom: 1.25rem; }
+.pubs-page-head .body { margin: 0; }
+
+@media (max-width: 680px) {
+  .news li { grid-template-columns: 1fr; gap: 0.1rem; }
+  .masthead-nav a:not(:last-of-type) { display: inline; }
+}
