@@ -72,4 +72,24 @@ window.PUBLICATIONS = Object.freeze([
     authors: ['Guoqing Li', 'Meng Zhang', 'Bin Duan', 'Qianru Zhang', 'Guodong Tong'],
     venue: 'ICCECE', fullVenue: 'ICCECE'
   }
+  ,
+  /* ---- arXiv preprints (shown under Research only) ---- */
+  { key: 'duan2026vltest', type: 'preprint', year: 2026, topic: 'models',
+    title: 'VLTest: Finding Joint Image-Text Failures in Vision-Language Models',
+    authors: ['Bin Duan', 'Jintao Lin', 'Guowei Yang'], venue: 'arXiv', fullVenue: 'arXiv preprint', arxiv: '2610.30794' },
+  { key: 'duan2026codeattack', type: 'preprint', year: 2026, topic: 'models',
+    title: 'Towards Effective Black-Box Adversarial Attacks on Deep Code Models via Structural and Identifier Perturbations',
+    authors: ['Bin Duan', 'Jintao Lin', 'Dan Dongseong Kim', 'Guowei Yang'], venue: 'arXiv', fullVenue: 'arXiv preprint', arxiv: '2609.26234' },
+  { key: 'duan2026xfuzz', type: 'preprint', year: 2026, topic: 'libraries',
+    title: 'Testing Deep Learning Library APIs via Cross-Framework Differential Fuzzing',
+    authors: ['Bin Duan', 'Ruican Dong', 'Naipeng Dong', 'Dan Dongseong Kim', 'Guowei Yang'], venue: 'arXiv', fullVenue: 'arXiv preprint', arxiv: '2608.11886' },
+  { key: 'duan2026pyfuzz', type: 'preprint', year: 2026, topic: 'libraries',
+    title: 'Harnessing LLMs for Document-Guided Fuzzing of Python Libraries',
+    authors: ['Bin Duan', 'Tarek Mahmud', 'Meiru Che', 'Yan Yan', 'Naipeng Dong', 'Dan Dongseong Kim', 'Guowei Yang'], venue: 'arXiv', fullVenue: 'arXiv preprint', arxiv: '2608.11744' },
+  { key: 'duan2026latent', type: 'preprint', year: 2026, topic: 'models',
+    title: 'Latent Anchor-Driven Test Generation for Deep Neural Networks',
+    authors: ['Bin Duan', 'Matthew B. Dwyer', 'Guowei Yang'], venue: 'arXiv', fullVenue: 'arXiv preprint', arxiv: '2606.04310' },
+  { key: 'duan2025interp', type: 'preprint', year: 2025, topic: 'models',
+    title: 'Generating Realistic, Diverse, and Fault-Revealing Inputs with Latent Space Interpolation for Testing Deep Neural Networks',
+    authors: ['Bin Duan', 'Matthew B. Dwyer', 'Guowei Yang'], venue: 'arXiv', fullVenue: 'arXiv preprint', arxiv: '2503.17630' }
 ]);

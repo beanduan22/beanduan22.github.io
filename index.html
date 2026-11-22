@@ -50,7 +50,7 @@
     </section>
 
     <section class="page section" id="news" aria-labelledby="news-h">
-      <h2 class="label" id="news-h"><span class="label-no">01</span> <span data-i18n="newsH">News</span></h2>
+      <h2 class="label" id="news-h"><span data-i18n="newsH">News</span></h2>
       <ul class="news">
         <li><time datetime="2026">2026</time><p data-i18n-html="n1"><em>Testing Neural Networks via Bayesian-Guided Exploration of Decision Landscapes</em> is published in IEEE TSE.</p></li>
         <li><time datetime="2026-09">Sep 2026</time><p data-i18n-html="n2"><em>Toward a Generalized Defense Across Sparse, Continuous, and Structured Parameter Attacks</em> is published in IEEE TDSC.</p></li>
@@ -63,31 +63,44 @@
       </ul>
     </section>
 
+    <section class="page section" id="publications" aria-labelledby="pubs-h">
+      <h2 class="label" id="pubs-h"><span data-i18n="selectedH">Selected publications</span></h2>
+      <div class="pubs">
+        <p class="pub-note" data-i18n="noteSelected">First-author papers.</p>
+        <div id="pub-list" class="pub-list" data-view="selected">
+          <noscript><p>See <a href="publications.html">all publications</a>.</p></noscript>
+        </div>
+        <p class="more"><a href="publications.html"><span data-i18n="allLink">All publications</span> →</a></p>
+      </div>
+    </section>
+
     <section class="page section" id="research" aria-labelledby="research-h">
-      <h2 class="label" id="research-h"><span class="label-no">02</span> <span data-i18n="researchH">Research</span></h2>
+      <h2 class="label" id="research-h"><span data-i18n="researchH">Research</span></h2>
       <div class="threads">
         <article class="thread" data-topic="libraries">
           <p class="thread-no">A</p>
           <div>
             <h3 data-i18n="t1">Testing deep learning libraries</h3>
-            <p data-i18n="t1d">Every model trusts its framework without checking. A bug in a convolution or a resize call silently propagates into every application built on top. I build fuzzers for these libraries, using documentation to learn what valid inputs look like, and comparing equivalent APIs across frameworks to catch bugs that look identical on CPU and GPU.</p>
+            <p data-i18n="t1d">Every model trusts its framework without checking. A bug in a convolution or a resize call silently propagates into every application built on top. I build fuzzers for these libraries, using documentation to learn what valid inputs look like, and comparing equivalent APIs across frameworks to catch bugs that look identical on CPU and GPU. Recent work extends both ideas to Python libraries and to differential fuzzing at scale.</p>
             <dl class="thread-facts">
               <div><dt data-i18n="how">How</dt><dd data-i18n="t1how">LLM-parsed API documentation → parameter constraints → targeted inputs (VistaFuzz); cross-framework API matching with variance-guided differential testing (XAMT).</dd></div>
               <div><dt data-i18n="found">Found</dt><dd data-i18n="t1found">17 new bugs in 330 OpenCV APIs; 17 bugs across 839 matched APIs in five DL frameworks.</dd></div>
-              <div><dt data-i18n="papers">Papers</dt><dd class="thread-papers"></dd></div>
+              
             </dl>
+            <ul class="thread-papers" aria-label="Papers"></ul>
           </div>
         </article>
         <article class="thread" data-topic="models">
           <p class="thread-no">B</p>
           <div>
             <h3 data-i18n="t2">Model reliability: testing and defending neural networks</h3>
-            <p data-i18n="t2d">A model can fail in two ways: on inputs nobody anticipated, and after someone tampers with its weights. On the testing side, I look for failures where they actually live&nbsp;— in the decision-critical regions of an input, guided by where the network is uncertain&nbsp;— rather than mutating at random. On the defence side, I protect deployed weights so that sparse, continuous or structured attacks on parameters stop working without retraining the model.</p>
+            <p data-i18n="t2d">A model can fail in two ways: on inputs nobody anticipated, and after someone tampers with its weights. On the testing side, I look for failures where they actually live&nbsp;— in the decision-critical regions of an input, guided by where the network is uncertain&nbsp;— rather than mutating at random. On the defence side, I protect deployed weights so that sparse, continuous or structured attacks on parameters stop working without retraining the model. Recent preprints extend this to latent-space test generation, vision-language models, and black-box attacks on models of code.</p>
             <dl class="thread-facts">
               <div><dt data-i18n="how">How</dt><dd data-i18n="t2how">Saliency-guided mutation with Bayesian optimisation (BayesWarp); keyed reparameterisation plus error-correcting quantisation of weights (ParDef).</dd></div>
               <div><dt data-i18n="tested">Tested on</dt><dd data-i18n="t2on">MNIST, CIFAR-10/100, Tiny-ImageNet and ImageNet; ResNet, VGG and other architectures.</dd></div>
-              <div><dt data-i18n="papers">Papers</dt><dd class="thread-papers"></dd></div>
+              
             </dl>
+            <ul class="thread-papers" aria-label="Papers"></ul>
           </div>
         </article>
         <article class="thread" data-topic="llm">
@@ -98,21 +111,11 @@
             <dl class="thread-facts">
               <div><dt data-i18n="how">How</dt><dd data-i18n="t3how">Ensemble voting by syntactic, semantic and behavioural similarity (EnsLLM); prompt-and-test repair loops for API migration (GUPPY).</dd></div>
               <div><dt data-i18n="result">Result</dt><dd data-i18n="t3res">90.2% on HumanEval with an ensemble, vs 83.5% for the best single model.</dd></div>
-              <div><dt data-i18n="papers">Papers</dt><dd class="thread-papers"></dd></div>
+              
             </dl>
+            <ul class="thread-papers" aria-label="Papers"></ul>
           </div>
         </article>
-      </div>
-    </section>
-
-    <section class="page section" id="publications" aria-labelledby="pubs-h">
-      <h2 class="label" id="pubs-h"><span class="label-no">03</span> <span data-i18n="selectedH">Selected publications</span></h2>
-      <div class="pubs">
-        <p class="pub-note" data-i18n="noteSelected">First-author papers.</p>
-        <div id="pub-list" class="pub-list" data-view="selected">
-          <noscript><p>See <a href="publications.html">all publications</a>.</p></noscript>
-        </div>
-        <p class="more"><a href="publications.html"><span data-i18n="allLink">All publications</span> →</a></p>
       </div>
     </section>
 

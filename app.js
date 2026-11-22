@@ -7,18 +7,18 @@
     bio: '我在昆士兰大学电气工程与计算机科学学院攻读计算机科学博士，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的研究聚焦三个方向：<em>深度学习库测试</em>、<em>深度学习模型可靠性</em>，以及<em>大模型与软件工程</em>。',
     researchH: '研究方向',
     t1: '深度学习库测试',
-    t1d: '每个模型都无条件地信任它的框架。一次卷积或缩放调用里的 bug，会悄无声息地传到上层的每一个应用。我为这些库构建模糊测试工具：从文档中学习合法输入长什么样，并在不同框架之间比较等价的 API，从而发现那些在 CPU 和 GPU 上表现完全一致、因此很难被察觉的 bug。',
+    t1d: '每个模型都无条件地信任它的框架。一次卷积或缩放调用里的 bug，会悄无声息地传到上层的每一个应用。我为这些库构建模糊测试工具：从文档中学习合法输入长什么样，并在不同框架之间比较等价的 API，从而发现那些在 CPU 和 GPU 上表现完全一致、因此很难被察觉的 bug。近期工作把这两种思路扩展到了 Python 库，以及更大规模的差分模糊测试。',
     t1how: '用大模型解析 API 文档 → 参数约束 → 定向生成输入（VistaFuzz）；跨框架 API 匹配 + 方差引导的差分测试（XAMT）。',
     t1found: '在 330 个 OpenCV API 中发现 17 个新 bug；在五个深度学习框架、839 个匹配 API 中发现 17 个 bug。',
     t2: '模型可靠性：神经网络的测试与防御',
-    t2d: '模型会以两种方式失效：遇到没人预料到的输入，或者权重被人篡改。在测试一侧，我不做随机变异，而是去错误真正所在的地方找——输入中对决策最关键的区域，并由网络的不确定性来引导搜索。在防御一侧，我保护已部署模型的权重，让稀疏、连续或结构化的参数攻击在无需重新训练的情况下失效。',
+    t2d: '模型会以两种方式失效：遇到没人预料到的输入，或者权重被人篡改。在测试一侧，我不做随机变异，而是去错误真正所在的地方找——输入中对决策最关键的区域，并由网络的不确定性来引导搜索。在防御一侧，我保护已部署模型的权重，让稀疏、连续或结构化的参数攻击在无需重新训练的情况下失效。近期的预印本把这条线扩展到了潜空间测试生成、视觉-语言模型，以及针对代码模型的黑盒攻击。',
     t2how: '显著性引导的变异 + 贝叶斯优化（BayesWarp）；带密钥的通道重参数化 + 可纠错的权重量化（ParDef）。',
     t2on: 'MNIST、CIFAR-10/100、Tiny-ImageNet、ImageNet；ResNet、VGG 等多种网络结构。',
     t3: '大模型与软件工程',
     t3d: '大模型能写出看起来合理的代码，问题是该相信哪一段。我和合作者研究如何从多个模型的输出中挑出最可靠的程序，也用大模型去做那些不起眼但真实存在的维护工作：帮 Android 应用迁移掉已弃用、不兼容的 API。',
     t3how: '基于语法、语义和行为相似度的集成投票（EnsLLM）；“提示 + 测试”的迭代修复循环，用于 API 迁移（GUPPY）。',
     t3res: '集成方法在 HumanEval 上达到 90.2%，最好的单个模型为 83.5%。',
-    how: '方法', tested: '数据', found: '发现', result: '结果', papers: '论文',
+    how: '方法', tested: '数据', found: '发现', result: '结果', 
     navAbout: '关于', pubsH: '论文', selectedH: '代表论文', noteSelected: '第一作者论文。', allLink: '全部论文',
     newsH: '动态',
     n1: '<em>Testing Neural Networks via Bayesian-Guided Exploration of Decision Landscapes</em> 发表于 IEEE TSE。',
@@ -155,7 +155,7 @@
     const list = document.getElementById('pub-list');
     if (!list) return;
     const view = list.dataset.view;
-    const shown = pubs.filter(p => view === 'all' || isSelected(p))
+    const shown = pubs.filter(p => p.type !== 'preprint' && (view === 'all' || isSelected(p)))
       .sort((a, b) => (b.type === 'preprint') - (a.type === 'preprint'));
     const groups = [];
     shown.forEach(p => {
@@ -168,12 +168,16 @@
 
 
   function renderThreadPapers() {
+    const byNewest = (x, y) => y.year - x.year || (x.type === 'preprint') - (y.type === 'preprint');
     document.querySelectorAll('.thread[data-topic]').forEach(thread => {
       const slot = thread.querySelector('.thread-papers');
-      const items = pubs.filter(p => p.topic === thread.dataset.topic).map(p => {
-        const label = p.type === 'preprint' ? `${p.tool || p.title} · ${UI[lang].preprints}` : `${p.tool ? p.tool + ' · ' : ''}${p.venue} ’${String(p.year).slice(2)}`;
-        const href = p.doi ? `https://doi.org/${p.doi}` : p.arxiv ? `https://arxiv.org/abs/${p.arxiv}` : 'publications.html';
-        return el('a', { class: 'thread-paper', href, target: href.startsWith('http') ? '_blank' : '_self', rel: 'noopener noreferrer', text: label });
+      const items = pubs.filter(p => p.topic === thread.dataset.topic).sort(byNewest).map(p => {
+        const href = p.doi ? `https://doi.org/${p.doi}` : `https://arxiv.org/abs/${p.arxiv}`;
+        const tag = p.type === 'preprint' ? `arXiv ${p.year}` : `${p.venue} ${p.year}`;
+        return el('li', { class: p.type === 'preprint' ? 'is-preprint' : '' }, [
+          el('span', { class: 'tp-tag', text: tag }),
+          externalLink(href, p.title)
+        ]);
       });
       slot.replaceChildren(...items);
     });
