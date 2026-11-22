@@ -159,13 +159,11 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
 .pub-note { font: 400 var(--text-sm) var(--mono); color: var(--muted); margin: 0 0 1.75rem; }
 
 /* news */
-.news { list-style: none; margin: 0; padding: 0; max-width: 46rem; }
-.news li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1.25rem; padding: 0.7rem 0; border-bottom: 1px solid var(--rule); }
-.news li:first-child { padding-top: 0.2rem; }
-.news time { font: 400 var(--text-sm)/1.9 var(--mono); color: var(--muted); white-space: nowrap; }
-.news li:first-child time { color: var(--pen); }
-.news p { margin: 0; }
-.news em { font-style: italic; }
+.news { list-style: none; margin: 0; padding: 0; max-width: 50rem; }
+.news li { padding: 0.45rem 0 0.45rem 1.1rem; position: relative; line-height: 1.55; }
+.news li::before { content: ""; position: absolute; left: 0; top: 1.3rem; width: 0.4rem; height: 1px; background: var(--rule); }
+.news li:first-child::before { background: var(--pen); }
+.news time { font: 500 var(--text-sm) var(--mono); color: var(--ink); margin-right: 0.35rem; white-space: nowrap; }
 
 /* links between pages */
 .more { margin: 1.5rem 0 0; font: 500 var(--text-sm) var(--mono); }
@@ -181,7 +179,6 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
 .pubs-page-head .body { margin: 0; }
 
 @media (max-width: 680px) {
-  .news li { grid-template-columns: 1fr; gap: 0.1rem; }
   .masthead-nav a:not(:last-of-type) { display: inline; }
 }
 @media (max-width: 520px) { .mark-text { display: none; } }
