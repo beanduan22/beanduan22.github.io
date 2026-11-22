@@ -124,7 +124,7 @@
 
   function renderPub(p) {
     const t = UI[lang];
-    const titleHref = p.doi ? `https://doi.org/${p.doi}` : `https://scholar.google.com/scholar?q=${encodeURIComponent(`"${p.title}"`)}`;
+    const titleHref = p.doi ? `https://doi.org/${p.doi}` : p.arxiv ? `https://arxiv.org/abs/${p.arxiv}` : `https://scholar.google.com/scholar?q=${encodeURIComponent(`"${p.title}"`)}`;
     const links = el('p', { class: 'pub-links' });
     if (p.doi) links.append(externalLink(`https://doi.org/${p.doi}`, t.paper));
     if (p.arxiv) links.append(externalLink(`https://arxiv.org/abs/${p.arxiv}`, 'arXiv'));
@@ -143,10 +143,11 @@
 
     const heading = el('h4', {}, [p.tool ? el('span', { class: 'pub-tool', text: p.tool }) : null, externalLink(titleHref, p.title)]);
     const venue = el('div', { class: 'pub-venue' }, [
-      el('p', { text: p.venue }, [p.year < 2023 ? el('span', { text: String(p.year) }) : null]),
+      el('p', { text: p.venue }, [p.year < 2023 || p.type === 'preprint' ? el('span', { text: String(p.year) }) : null]),
       rankBadges(p)
     ]);
-    const full = p.fullVenue !== p.venue ? el('p', { class: 'pub-full', text: p.fullVenue }) : null;
+    const fullText = p.type === 'preprint' ? `arXiv:${p.arxiv}` : p.fullVenue;
+    const full = fullText !== p.venue ? el('p', { class: 'pub-full', text: fullText }) : null;
     node.append(venue, el('div', { class: 'pub-body' }, [heading, authorsLine(p.authors), full, links]));
     return node;
   }
@@ -155,7 +156,7 @@
     const list = document.getElementById('pub-list');
     if (!list) return;
     const view = list.dataset.view;
-    const shown = pubs.filter(p => p.type !== 'preprint' && (view === 'all' || isSelected(p)))
+    const shown = pubs.filter(p => view === 'all' || (isSelected(p) && p.type !== 'preprint'))
       .sort((a, b) => (b.type === 'preprint') - (a.type === 'preprint'));
     const groups = [];
     shown.forEach(p => {

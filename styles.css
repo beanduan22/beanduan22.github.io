@@ -207,3 +207,6 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 .thread-papers a { text-decoration: none; }
 .thread-papers a:hover { text-decoration: underline; text-decoration-color: var(--pen); }
 @media (max-width: 680px) { .thread-papers li { grid-template-columns: 1fr; gap: 0; } }
+
+/* name affiliation */
+h1 .at { font: 400 0.32em/1 var(--mono); letter-spacing: 0; color: var(--pen); margin-left: 0.35em; vertical-align: 0.15em; }
