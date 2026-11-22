@@ -51,7 +51,7 @@ window.PUBLICATIONS = Object.freeze([
     abstract: 'OpenCV is the largest and most popular open-source computer vision library, and its bugs propagate to downstream applications. VistaFuzz uses LLMs to parse API documentation into standardized API information, extracts constraints on individual input parameters and the dependencies between them, and uses these to generate inputs that systematically test each target API. Testing 330 OpenCV APIs, VistaFuzz detected 17 new bugs; 10 have been confirmed and 5 fixed.'
   },
   {
-    key: 'duan2025xamt', summary: "Matches equivalent APIs across five deep learning frameworks and tests them against each other, exposing bugs that same-framework CPU/GPU comparisons miss.",
+    key: 'duan2025xamt', summary: "Matches equivalent APIs across five deep learning frameworks and uses them as each other's oracle in differential testing, detecting 17 bugs, 12 of them confirmed.",
     ccf: 'B', core: 'A', type: 'inproceedings', year: 2025, topic: 'libraries', tool: 'XAMT',
     title: 'XAMT: Cross-Framework API Matching for Testing Deep Learning Libraries',
     authors: ['Bin Duan', 'Ruican Dong', 'Dan Dongseong Kim', 'Naipeng Dong', 'Guowei Yang'],
