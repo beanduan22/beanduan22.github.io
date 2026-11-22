@@ -55,8 +55,8 @@
   function rankBadges(p) {
     if (!p.ccf && !p.core) return null;
     return el('p', { class: 'ranks' }, [
-      p.ccf ? el('span', { class: `rank rank-${p.ccf === 'A' ? 'top' : 'mid'}`, text: `CCF-${p.ccf}` }) : null,
-      p.core ? el('span', { class: `rank rank-${p.core.startsWith('A') ? 'top' : 'mid'}`, text: `CORE ${p.core}` }) : null
+      p.ccf ? el('span', { class: 'rank', text: `CCF-${p.ccf}` }) : null,
+      p.core ? el('span', { class: 'rank', text: `CORE ${p.core}` }) : null
     ]);
   }
 

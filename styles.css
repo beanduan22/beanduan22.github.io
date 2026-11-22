@@ -148,8 +148,7 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
 /* ranks */
 .ranks { display: flex; flex-wrap: wrap; gap: 0.25rem; margin: 0.35rem 0 0 !important; }
 .rank { font: 500 0.6875rem/1 var(--mono); letter-spacing: 0.02em; padding: 0.22rem 0.35rem; border: 1px solid currentColor; white-space: nowrap; }
-.pub-venue .ranks .rank-top { color: var(--pen); font-weight: 500; }
-.pub-venue .ranks .rank-mid { color: var(--ink-soft); font-weight: 500; }
+.pub-venue .ranks .rank { color: var(--ink-soft); font-weight: 500; }
 
 
 /* intro bio directions */
@@ -158,10 +157,9 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
 .pub-note { font: 400 var(--text-sm) var(--mono); color: var(--muted); margin: 0 0 1.75rem; }
 
 /* news */
-.news { list-style: none; margin: 0; padding: 0; max-width: 50rem; }
-.news li { padding: 0.45rem 0 0.45rem 1.1rem; position: relative; line-height: 1.55; }
-.news li::before { content: ""; position: absolute; left: 0; top: 1.3rem; width: 0.4rem; height: 1px; background: var(--rule); }
-.news li:first-child::before { background: var(--pen); }
+.news { list-style: none; margin: 0; padding: 0; max-width: none; font-size: 1rem; }
+.news li { padding: 0.4rem 0; line-height: 1.55; }
+.news li:first-child time { color: var(--pen); }
 .news time { font: 500 var(--text-sm) var(--mono); color: var(--ink); margin-right: 0.35rem; white-space: nowrap; }
 
 /* links between pages */
