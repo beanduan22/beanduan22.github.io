@@ -122,7 +122,7 @@
     button.setAttribute('aria-expanded', 'true');
   }
 
-  function renderPub(p) {
+  function renderPub(p, withSummary = false) {
     const t = UI[lang];
     const titleHref = p.doi ? `https://doi.org/${p.doi}` : p.arxiv ? `https://arxiv.org/abs/${p.arxiv}` : `https://scholar.google.com/scholar?q=${encodeURIComponent(`"${p.title}"`)}`;
     const links = el('p', { class: 'pub-links' });
@@ -149,23 +149,23 @@
     const fullText = p.type === 'preprint' ? `arXiv:${p.arxiv}` : p.fullVenue;
     const full = fullText !== p.venue ? el('p', { class: 'pub-full', text: fullText }) : null;
     const summaryText = lang === 'zh' && p.summaryZh ? p.summaryZh : p.summary;
-    const summary = summaryText ? el('p', { class: 'pub-summary', text: summaryText }) : null;
+    const summary = withSummary && summaryText ? el('p', { class: 'pub-summary', text: summaryText }) : null;
     node.append(venue, el('div', { class: 'pub-body' }, [heading, summary, authorsLine(p.authors), full, links]));
     return node;
   }
 
-  function yearGroups(items) {
+  function yearGroups(items, withSummary = false) {
     const groups = [];
     items.forEach(p => {
       const label = p.year < 2023 ? UI[lang].earlier : String(p.year);
       const last = groups[groups.length - 1];
       if (last && last.label === label) last.items.push(p); else groups.push({ label, items: [p] });
     });
-    return groups.flatMap(g => [el('h3', { class: 'year', text: g.label }), ...g.items.map(renderPub)]);
+    return groups.flatMap(g => [el('h3', { class: 'year', text: g.label }), ...g.items.map(p => renderPub(p, withSummary))]);
   }
 
   function outputPart(id, title, items) {
-    const h = el('h2', { class: 'part-h', id }, [el('span', { text: title }), el('span', { class: 'count', text: String(items.length) })]);
+    const h = el('h2', { class: 'part-h', id, text: title });
     return el('section', { class: 'output-part', 'aria-labelledby': id }, [h, ...yearGroups(items)]);
   }
 
@@ -174,7 +174,7 @@
     if (!list) return;
     const view = list.dataset.view;
     const published = pubs.filter(p => p.type !== 'preprint' && (view === 'all' || isSelected(p)));
-    if (view !== 'all') { list.replaceChildren(...yearGroups(published)); return; }
+    if (view !== 'all') { list.replaceChildren(...yearGroups(published, true)); return; }
     const preprints = pubs.filter(p => p.type === 'preprint');
     list.replaceChildren(
       outputPart('part-pubs', UI[lang].publications, published),
