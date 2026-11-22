@@ -2,9 +2,9 @@
   'use strict';
 
   const ZH = {
-    skip: '跳至正文', navPubs: '论文', scholar: '谷歌学术',
-    role: '博士研究生 · 昆士兰大学 · 布里斯班',
-    bio: '我在昆士兰大学电气工程与计算机科学学院攻读计算机科学博士，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的研究聚焦三个方向：<em>深度学习库测试</em>、<em>深度学习模型可靠性</em>，以及<em>大模型与软件工程</em>。',
+    skip: '跳至正文', scholar: '谷歌学术',
+    role: '博士候选人 · 昆士兰大学 · 布里斯班',
+    bio: '我是昆士兰大学电气工程与计算机科学学院的计算机科学博士候选人，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的研究聚焦三个方向：<em>深度学习库测试</em>、<em>深度学习模型可靠性</em>，以及<em>大模型与软件工程</em>。',
     researchH: '研究方向',
     t1: '深度学习库测试',
     t1d: '每个模型都无条件地信任它的框架。一次卷积或缩放调用里的 bug，会悄无声息地传到上层的每一个应用。我为这些库构建模糊测试工具：从文档中学习合法输入长什么样，并在不同框架之间比较等价的 API，从而发现那些在 CPU 和 GPU 上表现完全一致、因此很难被察觉的 bug。近期工作把这两种思路扩展到了 Python 库，以及更大规模的差分模糊测试。',
@@ -19,7 +19,7 @@
     t3how: '基于语法、语义和行为相似度的集成投票（EnsLLM）；“提示 + 测试”的迭代修复循环，用于 API 迁移（GUPPY）。',
     t3res: '集成方法在 HumanEval 上达到 90.2%，最好的单个模型为 83.5%。',
     how: '方法', tested: '数据', found: '发现', result: '结果', 
-    navAbout: '关于', pubsH: '论文', selectedH: '代表论文', noteSelected: '第一作者论文。', allLink: '全部论文',
+    navAbout: '关于', navPubs: '研究成果', pubsH: '研究成果', selectedH: '代表论文', noteSelected: '第一作者论文。', allLink: '全部研究成果', papersH: '论文与预印本',
     newsH: '动态',
     n1: '<em>Testing Neural Networks via Bayesian-Guided Exploration of Decision Landscapes</em> 发表于 IEEE TSE。',
     n2: '<em>Toward a Generalized Defense Across Sparse, Continuous, and Structured Parameter Attacks</em> 发表于 IEEE TDSC。',
@@ -34,9 +34,9 @@
 
   const UI = {
     en: { toggle: '中文', toggleLang: 'zh', abstract: 'abstract', bibtex: 'bibtex', copyBib: 'copy bibtex', paper: 'paper', code: 'code',
-      emailCopied: 'Email copied', bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead', earlier: 'Earlier', preprints: 'Preprints' },
+      emailCopied: 'Email copied', bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead', earlier: 'Earlier', preprints: 'Preprints', publications: 'Publications' },
     zh: { toggle: 'English', toggleLang: 'en', abstract: '摘要', bibtex: 'BibTeX', copyBib: '复制 BibTeX', paper: '论文', code: '代码',
-      emailCopied: '邮箱已复制', bibCopied: 'BibTeX 已复制', copyFailed: '复制失败，请手动选中文字', earlier: '更早', preprints: '预印本' }
+      emailCopied: '邮箱已复制', bibCopied: 'BibTeX 已复制', copyFailed: '复制失败，请手动选中文字', earlier: '更早', preprints: '预印本', publications: '论文发表' }
   };
   const STORAGE_KEY = 'bd-lang';
   const SELF = 'Bin Duan';
@@ -148,23 +148,38 @@
     ]);
     const fullText = p.type === 'preprint' ? `arXiv:${p.arxiv}` : p.fullVenue;
     const full = fullText !== p.venue ? el('p', { class: 'pub-full', text: fullText }) : null;
-    node.append(venue, el('div', { class: 'pub-body' }, [heading, authorsLine(p.authors), full, links]));
+    const summaryText = lang === 'zh' && p.summaryZh ? p.summaryZh : p.summary;
+    const summary = summaryText ? el('p', { class: 'pub-summary', text: summaryText }) : null;
+    node.append(venue, el('div', { class: 'pub-body' }, [heading, summary, authorsLine(p.authors), full, links]));
     return node;
+  }
+
+  function yearGroups(items) {
+    const groups = [];
+    items.forEach(p => {
+      const label = p.year < 2023 ? UI[lang].earlier : String(p.year);
+      const last = groups[groups.length - 1];
+      if (last && last.label === label) last.items.push(p); else groups.push({ label, items: [p] });
+    });
+    return groups.flatMap(g => [el('h3', { class: 'year', text: g.label }), ...g.items.map(renderPub)]);
+  }
+
+  function outputPart(id, title, items) {
+    const h = el('h2', { class: 'part-h', id }, [el('span', { text: title }), el('span', { class: 'count', text: String(items.length) })]);
+    return el('section', { class: 'output-part', 'aria-labelledby': id }, [h, ...yearGroups(items)]);
   }
 
   function renderPublications() {
     const list = document.getElementById('pub-list');
     if (!list) return;
     const view = list.dataset.view;
-    const shown = pubs.filter(p => view === 'all' || (isSelected(p) && p.type !== 'preprint'))
-      .sort((a, b) => (b.type === 'preprint') - (a.type === 'preprint'));
-    const groups = [];
-    shown.forEach(p => {
-      const label = p.type === 'preprint' ? UI[lang].preprints : p.year < 2023 ? UI[lang].earlier : String(p.year);
-      const last = groups[groups.length - 1];
-      if (last && last.label === label) last.items.push(p); else groups.push({ label, items: [p] });
-    });
-    list.replaceChildren(...groups.flatMap(g => [el('h3', { class: 'year', text: g.label }), ...g.items.map(renderPub)]));
+    const published = pubs.filter(p => p.type !== 'preprint' && (view === 'all' || isSelected(p)));
+    if (view !== 'all') { list.replaceChildren(...yearGroups(published)); return; }
+    const preprints = pubs.filter(p => p.type === 'preprint');
+    list.replaceChildren(
+      outputPart('part-pubs', UI[lang].publications, published),
+      outputPart('part-pre', UI[lang].preprints, preprints)
+    );
   }
 
 

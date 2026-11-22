@@ -210,3 +210,11 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
 
 /* name affiliation */
 h1 .at { font: 400 0.32em/1 var(--mono); letter-spacing: 0; color: var(--pen); margin-left: 0.35em; vertical-align: 0.15em; }
+
+/* summaries, output parts */
+.pub-summary { margin: 0.1rem 0 0.45rem; color: var(--ink-soft); max-width: 68ch; font-size: 1rem; line-height: 1.5; }
+.output-part + .output-part { margin-top: clamp(3rem, 6vw, 4.5rem); }
+.part-h { display: flex; align-items: baseline; gap: 0.6rem; font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem); font-weight: 400; letter-spacing: -0.015em; margin: 0 0 1.25rem; }
+.part-h .count { font: 400 var(--text-sm) var(--mono); color: var(--muted); }
+.papers-h { font: 500 var(--text-sm) var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.75rem 0 0.5rem; }
+.papers-h + .thread-papers { margin-top: 0; }
