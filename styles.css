@@ -79,9 +79,6 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
 .pub-links a { color: var(--muted); }
 .pub-links a:hover { color: var(--ink); }
 
-/* footer */
-.footer { display: flex; justify-content: space-between; gap: 1rem; padding-block: 1.25rem 1.75rem; border-top: 1px solid var(--rule); font: 400 var(--text-sm) var(--serif); color: var(--muted); }
-.footer p { margin: 0; }
 
 
 
@@ -96,7 +93,6 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
   .pub::before { display: none; }
   .pub-venue span { display: inline; margin-left: 0.5em; }
   .masthead-nav a:not(:last-of-type) { display: none; }
-  .footer { flex-direction: column; }
 }
 .sentinel { position: absolute; top: 0; height: 1px; width: 1px; }
 .pair { white-space: nowrap; }

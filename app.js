@@ -295,7 +295,6 @@
   }
 
   /* ---------- misc ---------- */
-  document.getElementById('year').textContent = String(new Date().getFullYear());
 
   const masthead = document.querySelector('.masthead');
   new IntersectionObserver(([entry]) => masthead.classList.toggle('scrolled', !entry.isIntersecting))
