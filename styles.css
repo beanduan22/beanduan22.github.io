@@ -218,5 +218,3 @@ h1 .at { font: 400 0.32em/1 var(--mono); letter-spacing: 0; color: var(--pen); m
 .fold > summary:hover .label { color: var(--pen); }
 .fold > summary:focus-visible { outline: 2px solid var(--pen); outline-offset: 4px; }
 .fold-body > :first-child { margin-top: 0.75rem; }
-.fold-body.is-animating { overflow: hidden; will-change: height, opacity; }
-html { overflow-anchor: none; }

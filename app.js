@@ -155,130 +155,54 @@
   renderThreadPapers();
 
   /* ---------- auto-expanding sections ---------- */
-  // While scrolling, the lowest section whose heading sits in the top three quarters of the
-  // screen opens and the others close. Reaching the bottom opens the last section; scrolling
-  // back to the top opens the first. Opening/closing is animated, and every frame the scroll
-  // position absorbs the height change of sections above the active one, so its heading stays
-  // put without fighting the user's own scrolling.
+  // A section opens the moment its heading scrolls into view, and its items fade/slide in.
+  // Sections never close on their own: closing content above the reader would force scroll
+  // corrections that interrupt the browser's smooth scrolling. Only transform/opacity are
+  // animated, so nothing re-lays out the page mid-scroll. Clicking a heading still toggles it.
   const folds = [...document.querySelectorAll('details.fold')];
   if (folds.length) {
-    const TRIGGER = 0.75;
-    const DURATION = 460;
-    const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const bodyOf = f => f.querySelector('.fold-body');
-    const anims = new Map();
-    let lastY = window.scrollY;
-    let busyUntil = 0;
-    let compensating = false;
+    const ITEMS = ':scope > .news > li, .pub-list > *, :scope .more, .thread';
+    const itemsOf = fold => [...fold.querySelector('.fold-body').querySelectorAll(ITEMS)];
 
-    const animateFold = (fold, open) => {
-      const body = bodyOf(fold);
-      const running = anims.get(fold);
-      const from = fold.open ? body.getBoundingClientRect().height : 0;
-      const fromOpacity = running ? Number(getComputedStyle(body).opacity) : (fold.open ? 1 : 0);
-      if (running) running.cancel();
-      if (open) fold.open = true;
-      const to = open ? body.scrollHeight : 0;
-      body.classList.add('is-animating');
-      const anim = body.animate(
-        [{ height: `${from}px`, opacity: fromOpacity }, { height: `${to}px`, opacity: open ? 1 : 0 }],
-        { duration: DURATION, easing: EASE }
-      );
-      anims.set(fold, anim);
-      anim.onfinish = () => {
-        if (!open) fold.open = false;
-        body.classList.remove('is-animating');
-        anims.delete(fold);
-      };
-    };
-
-    // Total rendered height of the fold bodies above `index`.
-    const heightAbove = index => folds.slice(0, index)
-      .reduce((sum, f) => sum + (f.open ? bodyOf(f).getBoundingClientRect().height : 0), 0);
-
-    const compensate = index => {
-      if (compensating) return;
-      compensating = true;
-      let prev = heightAbove(index);
-      const step = () => {
-        const now = heightAbove(index);
-        if (now !== prev) window.scrollBy({ top: now - prev, behavior: 'instant' });
-        prev = now;
-        if (anims.size) requestAnimationFrame(step);
-        else { compensating = false; lastY = window.scrollY; }
-      };
-      requestAnimationFrame(step);
-    };
-
-    const focusFold = target => {
-      if (target.open && !anims.get(target) && folds.every(f => f === target || !f.open)) return;
-      const index = folds.indexOf(target);
-      if (reducedMotion.matches) {
-        const anchor = target.querySelector('summary');
-        const before = anchor.getBoundingClientRect().top;
-        folds.forEach(f => { f.open = f === target; });
-        const shift = anchor.getBoundingClientRect().top - before;
-        if (shift) window.scrollBy({ top: shift, behavior: 'instant' });
-        busyUntil = performance.now() + 250;
-        return;
-      }
-      folds.forEach(f => {
-        const wantOpen = f === target;
-        const isOpening = anims.has(f) ? f.dataset.state === 'opening' : f.open;
-        if (wantOpen !== isOpening) { f.dataset.state = wantOpen ? 'opening' : 'closing'; animateFold(f, wantOpen); }
+    const reveal = fold => {
+      fold.open = true;
+      if (reducedMotion.matches) return;
+      const viewportH = window.innerHeight;
+      let visibleIndex = 0;
+      itemsOf(fold).forEach(item => {
+        // Only stagger what can actually be seen; off-screen items appear instantly.
+        if (item.getBoundingClientRect().top > viewportH) return;
+        item.animate(
+          [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 420, delay: Math.min(visibleIndex++, 6) * 45, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'backwards' }
+        );
       });
-      busyUntil = performance.now() + DURATION;
-      compensate(index);
     };
 
-    const closeFold = fold => {
-      if (!fold.open) return;
+    const conceal = fold => {
       if (reducedMotion.matches) { fold.open = false; return; }
-      fold.dataset.state = 'closing';
-      animateFold(fold, false);
-      busyUntil = performance.now() + DURATION;
+      const body = fold.querySelector('.fold-body');
+      body.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, easing: 'ease-out' })
+        .onfinish = () => { fold.open = false; };
     };
 
-    const openIndex = () => folds.findIndex(f => f.open && f.dataset.state !== 'closing');
-    const atTop = () => window.scrollY <= 2;
-    const atBottom = () => window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
-    const pickActive = goingUp => {
-      const line = window.innerHeight * TRIGGER;
-      const byLine = Math.max(0, folds.map(f => f.querySelector('summary').getBoundingClientRect().top < line).lastIndexOf(true));
-      if (!goingUp && atBottom() && folds[byLine].open) return folds[Math.min(folds.length - 1, byLine + 1)];
-      if (goingUp && atTop()) return folds[Math.max(0, openIndex() - 1)];
-      return folds[byLine];
-    };
-    const update = () => {
-      const y = window.scrollY;
-      const goingUp = y < lastY;
-      lastY = y;
-      if (performance.now() < busyUntil || compensating) return;
-      focusFold(pickActive(goingUp));
-    };
-
-    folds.forEach(f => {
-      f.dataset.state = f.open ? 'opening' : 'closing';
-      f.querySelector('summary').addEventListener('click', e => {
+    folds.forEach(fold => {
+      fold.querySelector('summary').addEventListener('click', e => {
         e.preventDefault();
-        const opening = f.dataset.state !== 'opening' || !f.open;
-        if (opening) focusFold(f); else closeFold(f);
+        if (fold.open) conceal(fold); else reveal(fold);
       });
     });
 
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => { ticking = false; update(); });
-    }, { passive: true });
-    // Already at the top: a further upward wheel/swipe produces no scroll event, so listen for it.
-    window.addEventListener('wheel', e => {
-      if (performance.now() < busyUntil || compensating) return;
-      if (e.deltaY < 0 && atTop()) focusFold(folds[Math.max(0, openIndex() - 1)]);
-      else if (e.deltaY > 0 && atBottom()) focusFold(folds[Math.min(folds.length - 1, openIndex() + 1)]);
-    }, { passive: true });
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const fold = entry.target.parentElement;
+        observer.unobserve(entry.target);
+        if (!fold.open) reveal(fold);
+      });
+    }, { rootMargin: '0px 0px -6% 0px' });
+    folds.filter(f => !f.open).forEach(f => observer.observe(f.querySelector('summary')));
   }
 
   /* ---------- misc ---------- */
