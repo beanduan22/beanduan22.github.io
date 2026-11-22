@@ -2,7 +2,7 @@
   'use strict';
 
   const ZH = {
-    skip: '跳至正文', navResearch: '研究', navPubs: '论文', navAbout: '关于', scholar: '谷歌学术',
+    skip: '跳至正文', navResearch: '研究', navPubs: '论文', scholar: '谷歌学术',
     role: '博士研究生 · 昆士兰大学 · 布里斯班',
     bio: '我在昆士兰大学电气工程与计算机科学学院攻读计算机科学博士，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的研究聚焦三个方向：<em>深度学习库测试</em>、<em>深度学习模型可靠性</em>，以及<em>大模型与软件工程</em>。',
     researchH: '研究方向',
@@ -20,15 +20,7 @@
     t3res: '集成方法在 HumanEval 上达到 90.2%，最好的单个模型为 83.5%。',
     how: '方法', tested: '数据', found: '发现', result: '结果', papers: '论文',
     pubsH: '论文', tabSelected: '代表作', tabAll: '全部论文',
-    timeH: '时间线',
-    tl2026: 'BayesWarp 发表于 IEEE TSE，ParDef 发表于 IEEE TDSC；集成代码生成工作发表于 ICSE。',
-    tl2025: '第一批第一作者会议论文：ICSME 上的 VistaFuzz 与 ISSRE 上的 XAMT；基于大模型的 Android API 工作发表于 IEEE TSE 与 FORGE。',
-    tl2023: '10 月在昆士兰大学开始读博，与 Guowei Yang 一起研究深度学习系统的测试。',
-    tl2021: '基于贝叶斯学习的共享分组卷积，发表于 IEEE TNNLS。',
-    tl2019: '第一篇论文：在通道维度上共享卷积核以减少 CNN 参数，发表于 ICCECE。',
-    aboutH: '关于与联系', eduH: '教育', eduWhen: '2023 年 10 月 – 至今', eduWhat: '计算机科学博士', eduWhere: '昆士兰大学 电气工程与计算机科学学院',
-    intH: '兴趣', interests: '软件测试 · 模糊测试 · 深度学习可靠性 · 对抗与参数攻击 · 大模型与软件工程 · API 演化',
-    contactLine: '欢迎聊测试、鲁棒性，或者合作。', copy: '复制', updated: '最后更新于 2026 年 11 月'
+    updated: '最后更新于 2026 年 11 月'
   };
 
   const UI = {
@@ -237,7 +229,6 @@
   applyLanguage(saved === 'zh' ? 'zh' : 'en');
 
   /* ---------- misc ---------- */
-  document.getElementById('copy-email').addEventListener('click', () => copyText('b.duan@uq.edu.au', UI[lang].emailCopied));
   document.getElementById('year').textContent = String(new Date().getFullYear());
 
   const masthead = document.querySelector('.masthead');
