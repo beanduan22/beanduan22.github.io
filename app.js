@@ -2,33 +2,25 @@
   'use strict';
 
   const ZH = {
-    skip: '跳至正文', navResearch: '研究', navTools: '工具', navPubs: '论文', navAbout: '关于', scholar: '谷歌学术',
+    skip: '跳至正文', navResearch: '研究', navPubs: '论文', navAbout: '关于', scholar: '谷歌学术',
     role: '博士研究生 · 昆士兰大学 · 布里斯班',
-    lede: '我研究深度学习系统是怎么出错的——模型本身，以及模型所依赖的软件库——并想办法<em>抢先</em>找到这些错误。',
-    bio: '我在昆士兰大学电气工程与计算机科学学院攻读计算机科学博士，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的工作处在软件工程与机器学习之间：为神经网络、以及支撑它们的深度学习框架构建测试工具，并用大语言模型让测试更聪明。在此之前，我研究的是如何让卷积网络更小、更省。',
-    figNo: '图 1', figCap: '一个示意性的决策空间。BayesWarp 就是在这样的空间里，寻找模型判断发生翻转的区域。',
+    bio: '我在昆士兰大学电气工程与计算机科学学院攻读计算机科学博士，导师是 <a href="https://guoweiyang.github.io/" target="_blank" rel="noopener noreferrer">Guowei Yang</a>。我的工作处在软件工程与机器学习之间：为深度学习框架、以及运行在其上的神经网络构建测试与防御工具，并用大语言模型让测试更聪明。在此之前，我研究的是如何让卷积网络更小、更省。',
     statPapers: '篇论文，其中 4 篇为第一作者', statBugs: '个在 OpenCV 和深度学习框架中新发现的 bug', statConfirmed: '个已被库的开发者确认', statLibs: '个被测试的库：OpenCV、PyTorch、TensorFlow、Keras、Chainer、JAX',
     researchH: '研究方向',
-    t1: '测试模型本身',
-    t1d: '随机变异或覆盖率引导的方法，往往反复找到同几类错误，而且生成的输入容易偏离真实数据。我更关注错误真正所在的地方：输入中对决策最关键的区域，并用模型的不确定性来引导搜索。另一面是防御——模型部署之后，权重可能被篡改，而这种破坏会影响之后的每一次预测。',
-    t1how: '显著性引导的变异 + 贝叶斯优化（BayesWarp）；带密钥的通道重参数化 + 可纠错的权重量化（ParDef）。',
-    t1on: 'MNIST、CIFAR-10/100、Tiny-ImageNet、ImageNet；包括 ResNet、VGG 在内的多种网络结构。',
-    t2: '测试模型所依赖的库',
-    t2d: '每个模型都无条件地信任它的框架。一次卷积或缩放调用里的 bug，会悄无声息地传到上层的每一个应用。我为这些库构建模糊测试工具：从文档中学习合法输入长什么样，并在不同框架之间比较等价的 API，从而发现那些在 CPU 和 GPU 上表现完全一致、因此很难被察觉的 bug。',
-    t2how: '用大模型解析 API 文档 → 参数约束 → 定向生成输入（VistaFuzz）；跨框架 API 匹配 + 方差引导的差分测试（XAMT）。',
-    t2found: '在 330 个 OpenCV API 中发现 17 个新 bug；在五个深度学习框架、839 个匹配 API 中发现 17 个 bug。',
-    t3: '让大模型做工程',
+    t1: '深度学习库测试',
+    t1d: '每个模型都无条件地信任它的框架。一次卷积或缩放调用里的 bug，会悄无声息地传到上层的每一个应用。我为这些库构建模糊测试工具：从文档中学习合法输入长什么样，并在不同框架之间比较等价的 API，从而发现那些在 CPU 和 GPU 上表现完全一致、因此很难被察觉的 bug。',
+    t1how: '用大模型解析 API 文档 → 参数约束 → 定向生成输入（VistaFuzz）；跨框架 API 匹配 + 方差引导的差分测试（XAMT）。',
+    t1found: '在 330 个 OpenCV API 中发现 17 个新 bug；在五个深度学习框架、839 个匹配 API 中发现 17 个 bug。',
+    t2: '模型可靠性：神经网络的测试与防御',
+    t2d: '模型会以两种方式失效：遇到没人预料到的输入，或者权重被人篡改。在测试一侧，我不做随机变异，而是去错误真正所在的地方找——输入中对决策最关键的区域，并由网络的不确定性来引导搜索。在防御一侧，我保护已部署模型的权重，让稀疏、连续或结构化的参数攻击在无需重新训练的情况下失效。',
+    t2how: '显著性引导的变异 + 贝叶斯优化（BayesWarp）；带密钥的通道重参数化 + 可纠错的权重量化（ParDef）。',
+    t2on: 'MNIST、CIFAR-10/100、Tiny-ImageNet、ImageNet；ResNet、VGG 等多种网络结构。',
+    t3: '大模型与软件工程',
     t3d: '大模型能写出看起来合理的代码，问题是该相信哪一段。我和合作者研究如何从多个模型的输出中挑出最可靠的程序，也用大模型去做那些不起眼但真实存在的维护工作：帮 Android 应用迁移掉已弃用、不兼容的 API。',
     t3how: '基于语法、语义和行为相似度的集成投票（EnsLLM）；“提示 + 测试”的迭代修复循环，用于 API 迁移（GUPPY）。',
     t3res: '集成方法在 HumanEval 上达到 90.2%，最好的单个模型为 83.5%。',
-    how: '方法', tested: '数据', found: '发现', result: '结果',
-    toolsH: '工具', toolsNote: '研究原型，大部分已开源。条形图表示论文中报告的 bug 数：发现 / 确认 / 修复。',
-    colTool: '工具', colWhat: '做什么', colEvidence: '证据', colWhere: '发表于',
-    vfWhat: '用大模型做文档引导的 OpenCV 模糊测试', xaWhat: '跨框架 API 匹配与差分测试', bwWhat: '贝叶斯引导的神经网络测试生成',
-    bwEv: '在相同预算下发现更多、更多样的错误', pdWhat: '针对参数（权重）攻击的通用防御', pdEv: '在稀疏、连续、结构化三类攻击下都降低了攻击成功率',
-    enWhat: '从多个大模型的输出中挑出最可信的程序', enNums: '90.2% 对 83.5%', guWhat: '用大模型自动更新已弃用的 Android API 用法', guEv: '覆盖至 API level 34 的 516 处弃用用法',
-    kFound: '发现', kConf: '确认', kFixed: '修复',
-    pubsH: '论文', fAll: '全部', fModels: '模型测试', fLibraries: '库测试', fLLM: '大模型与软件工程', fEfficient: '高效网络',
+    how: '方法', tested: '数据', found: '发现', result: '结果', papers: '论文',
+    pubsH: '论文', fAll: '全部', fLibraries: '深度学习库测试', fModels: '模型可靠性', fLLM: '大模型与软件工程', fEfficient: '高效网络',
     timeH: '时间线',
     tl2026: 'BayesWarp 发表于 IEEE TSE，ParDef 发表于 IEEE TDSC；集成代码生成工作发表于 ICSE。',
     tl2025: '第一批第一作者会议论文：ICSME 上的 VistaFuzz 与 ISSRE 上的 XAMT；基于大模型的 Android API 工作发表于 IEEE TSE 与 FORGE。',
@@ -42,9 +34,9 @@
 
   const UI = {
     en: { toggle: '中文', toggleLang: 'zh', abstract: 'abstract', bibtex: 'bibtex', copyBib: 'copy bibtex', paper: 'paper', code: 'code',
-      emailCopied: 'Email copied', bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead', earlier: 'Earlier' },
+      emailCopied: 'Email copied', bibCopied: 'BibTeX copied', copyFailed: 'Copy failed — please select the text instead', earlier: 'Earlier', preprints: 'Preprints' },
     zh: { toggle: 'English', toggleLang: 'en', abstract: '摘要', bibtex: 'BibTeX', copyBib: '复制 BibTeX', paper: '论文', code: '代码',
-      emailCopied: '邮箱已复制', bibCopied: 'BibTeX 已复制', copyFailed: '复制失败，请手动选中文字', earlier: '更早' }
+      emailCopied: '邮箱已复制', bibCopied: 'BibTeX 已复制', copyFailed: '复制失败，请手动选中文字', earlier: '更早', preprints: '预印本' }
   };
   const STORAGE_KEY = 'bd-lang';
   const SELF = 'Bin Duan';
@@ -86,16 +78,19 @@
 
   /* ---------- bibtex ---------- */
   function toBibtex(p) {
+    const isPreprint = p.type === 'preprint';
     const venueField = p.type === 'article' ? 'journal' : 'booktitle';
     const fields = [
       ['title', `{${p.title}}`],
       ['author', p.authors.join(' and ')],
-      [venueField, p.fullVenue],
+      isPreprint ? null : [venueField, p.fullVenue],
+      isPreprint && p.arxiv ? ['eprint', p.arxiv] : null,
+      isPreprint && p.arxiv ? ['archivePrefix', 'arXiv'] : null,
       ['year', String(p.year)],
       p.doi ? ['doi', p.doi] : null
     ].filter(Boolean);
-    const body = fields.map(([k, v]) => `  ${k.padEnd(9)} = {${v}}`).join(',\n');
-    return `@${p.type}{${p.key},\n${body}\n}`;
+    const body = fields.map(([k, v]) => `  ${k.padEnd(13)} = {${v}}`).join(',\n');
+    return `@${isPreprint ? 'misc' : p.type}{${p.key},\n${body}\n}`;
   }
 
   /* ---------- publications ---------- */
@@ -106,6 +101,14 @@
       if (i < authors.length - 1) line.append(document.createTextNode(', '));
     });
     return line;
+  }
+
+  function rankBadges(p) {
+    if (!p.ccf && !p.core) return null;
+    return el('p', { class: 'ranks' }, [
+      p.ccf ? el('span', { class: `rank rank-${p.ccf === 'A' ? 'top' : 'mid'}`, text: `CCF-${p.ccf}` }) : null,
+      p.core ? el('span', { class: `rank rank-${p.core.startsWith('A') ? 'top' : 'mid'}`, text: `CORE ${p.core}` }) : null
+    ]);
   }
 
   function togglePanel(button, pubNode, kind, build) {
@@ -139,7 +142,10 @@
     links.append(bibBtn, copyBtn);
 
     const heading = el('h4', {}, [p.tool ? el('span', { class: 'pub-tool', text: p.tool }) : null, externalLink(titleHref, p.title)]);
-    const venue = el('p', { class: 'pub-venue', text: p.venue }, [p.year < 2023 ? el('span', { text: String(p.year) }) : null]);
+    const venue = el('div', { class: 'pub-venue' }, [
+      el('p', { text: p.venue }, [p.year < 2023 ? el('span', { text: String(p.year) }) : null]),
+      rankBadges(p)
+    ]);
     const full = p.fullVenue !== p.venue ? el('p', { class: 'pub-full', text: p.fullVenue }) : null;
     node.append(venue, el('div', { class: 'pub-body' }, [heading, authorsLine(p.authors), full, links]));
     return node;
@@ -148,10 +154,11 @@
   function renderPublications() {
     const list = document.getElementById('pub-list');
     if (!list) return;
-    const shown = pubs.filter(p => topic === 'all' || p.topic === topic);
+    const shown = pubs.filter(p => topic === 'all' || p.topic === topic)
+      .sort((a, b) => (b.type === 'preprint') - (a.type === 'preprint'));
     const groups = [];
     shown.forEach(p => {
-      const label = p.year < 2023 ? UI[lang].earlier : String(p.year);
+      const label = p.type === 'preprint' ? UI[lang].preprints : p.year < 2023 ? UI[lang].earlier : String(p.year);
       const last = groups[groups.length - 1];
       if (last && last.label === label) last.items.push(p); else groups.push({ label, items: [p] });
     });
@@ -165,6 +172,24 @@
       renderPublications();
     });
   });
+
+  function renderThreadPapers() {
+    document.querySelectorAll('.thread[data-topic]').forEach(thread => {
+      const slot = thread.querySelector('.thread-papers');
+      const items = pubs.filter(p => p.topic === thread.dataset.topic).map(p => {
+        const label = p.type === 'preprint' ? `${p.tool || p.title} · ${UI[lang].preprints}` : `${p.tool ? p.tool + ' · ' : ''}${p.venue} ’${String(p.year).slice(2)}`;
+        const href = p.doi ? `https://doi.org/${p.doi}` : p.arxiv ? `https://arxiv.org/abs/${p.arxiv}` : '#publications';
+        return el('a', { class: 'thread-paper', href, target: href.startsWith('#') ? '_self' : '_blank', rel: 'noopener noreferrer', text: label });
+      });
+      slot.replaceChildren(...items);
+    });
+  }
+
+  const portrait = document.getElementById('portrait');
+  const photo = portrait.querySelector('img');
+  const markEmpty = () => portrait.classList.add('is-empty');
+  photo.addEventListener('error', markEmpty);
+  if (photo.complete && photo.naturalWidth === 0) markEmpty();
 
   /* ---------- language ---------- */
   const nodes = [
@@ -183,6 +208,7 @@
     toggle.textContent = UI[lang].toggle;
     toggle.lang = UI[lang].toggleLang;
     renderPublications();
+    renderThreadPapers();
     try { localStorage.setItem(STORAGE_KEY, lang); } catch (err) { /* storage unavailable: choice just won't persist */ }
   }
   toggle.addEventListener('click', () => applyLanguage(lang === 'en' ? 'zh' : 'en'));
@@ -199,9 +225,4 @@
   new IntersectionObserver(([entry]) => masthead.classList.toggle('scrolled', !entry.isIntersecting))
     .observe(document.getElementById('sentinel'));
 
-  const tools = document.getElementById('tools');
-  const io = new IntersectionObserver(entries => {
-    if (entries.some(e => e.isIntersecting)) { tools.classList.add('in-view'); io.disconnect(); }
-  }, { threshold: 0.25 });
-  io.observe(tools);
 })();
