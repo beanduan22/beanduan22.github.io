@@ -54,8 +54,11 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--pen); outline-o
 .masthead { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid transparent; transition: border-color 200ms; }
 .masthead.scrolled { border-bottom-color: var(--rule); }
 .masthead-inner { display: flex; justify-content: space-between; align-items: center; height: 3.5rem; font: 400 var(--text-sm) var(--mono); }
-.mark { text-decoration: none; letter-spacing: 0.08em; font-weight: 500; }
-.mark span { color: var(--pen); margin-inline: 0.15em; }
+.mark { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink); }
+.mark-glyph { width: 1.75rem; height: auto; fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; overflow: visible; }
+.mark-glyph .mark-stem { stroke: var(--pen); transform-origin: 50% 100%; transition: transform 260ms var(--ease); }
+.mark:hover .mark-glyph .mark-stem { transform: scaleY(1.12); }
+.mark-text { font-weight: 500; letter-spacing: 0.02em; }
 .masthead-nav { display: flex; gap: clamp(0.9rem, 2.5vw, 2rem); align-items: center; }
 .masthead-nav a { text-decoration: none; color: var(--ink-soft); }
 .masthead-nav a:hover { color: var(--ink); }
@@ -199,3 +202,4 @@ html[lang="zh-CN"] .body { line-height: 1.8; }
   .news li { grid-template-columns: 1fr; gap: 0.1rem; }
   .masthead-nav a:not(:last-of-type) { display: inline; }
 }
+@media (max-width: 520px) { .mark-text { display: none; } }
