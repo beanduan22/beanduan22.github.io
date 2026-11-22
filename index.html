@@ -11,9 +11,9 @@
   <title>binduan.github.io</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/newsreader-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=20261122164437">
-  <script src="publications.js?v=20261122164437" defer></script>
-  <script src="app.js?v=20261122164437" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261122164856">
+  <script src="publications.js?v=20261122164856" defer></script>
+  <script src="app.js?v=20261122164856" defer></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Bin Duan","url":"https://beanduan22.github.io/","email":"mailto:b.duan@uq.edu.au","affiliation":{"@type":"CollegeOrUniversity","name":"The University of Queensland"},"sameAs":["https://github.com/beanduan22","https://scholar.google.com/citations?user=vhagAc0AAAAJ"]}</script>
 </head>
 <body>
@@ -63,17 +63,20 @@
     </section>
 
     <section class="page section section-wide" id="publications" aria-labelledby="pubs-h">
-      <h2 class="label" id="pubs-h"><span>Selected publications</span></h2>
+      <details class="fold">
+        <summary><h2 class="label" id="pubs-h">Selected publications</h2><span class="fold-icon" aria-hidden="true"></span></summary>
       <div class="pubs">
         <div id="pub-list" class="pub-list" data-view="selected">
           <noscript><p>See <a href="research-outputs.html">all publications</a>.</p></noscript>
         </div>
         <p class="more"><a href="research-outputs.html"><span>All research outputs</span> →</a></p>
       </div>
+      </details>
     </section>
 
     <section class="page section section-wide" id="research" aria-labelledby="research-h">
-      <h2 class="label" id="research-h"><span>Research</span></h2>
+      <details class="fold">
+        <summary><h2 class="label" id="research-h">Research</h2><span class="fold-icon" aria-hidden="true"></span></summary>
       <div class="threads">
         <article class="thread" data-topic="libraries">
           <div>
@@ -100,6 +103,7 @@
           </div>
         </article>
       </div>
+      </details>
     </section>
 
   </main>
