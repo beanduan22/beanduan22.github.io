@@ -63,7 +63,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--pen); outline-o
 .masthead-nav a:hover { color: var(--ink); }
 
 /* intro */
-.intro { display: grid; grid-template-columns: 13rem minmax(0, 1fr); gap: clamp(1.5rem, 3.5vw, 3rem); align-items: end; padding-block: clamp(1.75rem, 4vw, 3rem) clamp(1.75rem, 3.5vw, 2.5rem); }
+.intro { display: grid; grid-template-columns: 20rem minmax(0, 1fr); gap: clamp(1.5rem, 3vw, 2.5rem); align-items: end; padding-block: clamp(1.75rem, 4vw, 3rem) clamp(1.75rem, 3.5vw, 2.5rem); }
 .meta { font: 400 var(--text-sm)/1.4 var(--mono); color: var(--muted); letter-spacing: 0.02em; margin: 0 0 1.25rem; }
 h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-spacing: -0.025em; margin: 0 0 1.1rem; }
 .body { color: var(--ink-soft); max-width: 62ch; margin: 0 0 1.1rem; }
@@ -97,7 +97,7 @@ h1 { font-size: var(--text-name); font-weight: 400; line-height: 0.95; letter-sp
 
 @media (max-width: 900px) {
   .intro { grid-template-columns: 1fr; align-items: start; }
-  .portrait { max-width: 11rem; }
+  .portrait { max-width: 16rem; }
 }
 @media (max-width: 680px) {
   .section { grid-template-columns: 1fr; gap: 1.25rem; }

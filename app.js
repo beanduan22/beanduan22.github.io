@@ -154,6 +154,56 @@
   renderPublications();
   renderThreadPapers();
 
+  /* ---------- auto-expanding sections ---------- */
+  // While scrolling, the lowest section whose heading sits in the top three quarters of the
+  // screen opens and the others close. Reaching the bottom opens the last section; scrolling
+  // back to the top opens the first. Scroll is compensated so the open heading stays put.
+  const folds = [...document.querySelectorAll('details.fold')];
+  if (folds.length) {
+    const TRIGGER = 0.75;
+    let lastY = window.scrollY;
+    let ignoreUntil = 0;
+    const focusFold = target => {
+      if (target.open && folds.every(f => f === target || !f.open)) return;
+      const anchor = target.querySelector('summary');
+      const before = anchor.getBoundingClientRect().top;
+      folds.forEach(f => { f.open = f === target; });
+      ignoreUntil = performance.now() + 250;
+      const shift = anchor.getBoundingClientRect().top - before;
+      if (shift) window.scrollBy({ top: shift, behavior: 'instant' });
+    };
+    const openIndex = () => folds.findIndex(f => f.open);
+    const atTop = () => window.scrollY <= 2;
+    const atBottom = () => window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    const pickActive = goingUp => {
+      const line = window.innerHeight * TRIGGER;
+      const byLine = Math.max(0, folds.map(f => f.querySelector('summary').getBoundingClientRect().top < line).lastIndexOf(true));
+      if (!goingUp && atBottom() && folds[byLine].open) return folds[Math.min(folds.length - 1, byLine + 1)];
+      if (goingUp && atTop()) return folds[Math.max(0, openIndex() - 1)];
+      return folds[byLine];
+    };
+    const update = () => {
+      const y = window.scrollY;
+      const goingUp = y < lastY;
+      lastY = y;
+      if (performance.now() < ignoreUntil) return;
+      focusFold(pickActive(goingUp));
+      lastY = window.scrollY;
+    };
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { ticking = false; update(); });
+    }, { passive: true });
+    // Already at the top: a further upward wheel/swipe produces no scroll event, so listen for it.
+    window.addEventListener('wheel', e => {
+      if (performance.now() < ignoreUntil) return;
+      if (e.deltaY < 0 && atTop()) focusFold(folds[Math.max(0, openIndex() - 1)]);
+      else if (e.deltaY > 0 && atBottom()) focusFold(folds[Math.min(folds.length - 1, openIndex() + 1)]);
+    }, { passive: true });
+  }
+
   /* ---------- misc ---------- */
   document.getElementById('year').textContent = String(new Date().getFullYear());
 
