@@ -1,12 +1,12 @@
 
 :root {
   /* paper, ink, and one red pen */
-  --paper: #f7f5f0;
-  --paper-deep: #efebe2;
+  --paper: #ffffff;
+  --paper-deep: #f4f4f4;
   --ink: #1c1b19;
   --ink-soft: #4a4740;
   --muted: #7a756b;
-  --rule: #ddd7cb;
+  --rule: #e3e3e3;
   --pen: #c8432b;
   --pen-soft: rgba(200, 67, 43, 0.12);
   --contour: #b9b1a1;
